@@ -1,0 +1,10 @@
+{
+  "python": "3.15.0",
+  "sistema": "Windows-11-10.0.26200-SP0",
+  "pandas": "3.0.6",
+  "numpy": "2.5.4",
+  "scikit-learn": "1.9.1",
+  "scipy": "1.18.1",
+  "fairlearn": "0.15.0",
+  "matplotlib": "3.11.2"
+}

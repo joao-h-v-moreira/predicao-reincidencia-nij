@@ -1,0 +1,3 @@
+grupo_positivo,grupo_negativo,n_amostras,n_variaveis_originais,auc_roc_reconstrucao_raca,tamanho_efeito_rice_harris,conjunto_atributos
+BLACK,WHITE,25835,30,0.7424188560472504,grande,soltura
+BLACK,WHITE,25835,46,0.8082177317974734,grande,completo

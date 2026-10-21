@@ -1,0 +1,12 @@
+variavel,proporcao_ausente
+Avg_Days_per_DrugTest,0.23622992065028062
+DrugTests_THC_Positive,0.20019353590090963
+DrugTests_Cocaine_Positive,0.20019353590090963
+DrugTests_Meth_Positive,0.20019353590090963
+DrugTests_Other_Positive,0.20019353590090963
+Prison_Offense,0.12684342945616411
+Gang_Affiliated,0.1225856396361525
+Supervision_Level_First,0.06657634991290884
+Jobs_Per_Year,0.031275401586994385
+Supervision_Risk_Score_First,0.01838591058641378
+Percent_Days_Employed,0.01788271724404877

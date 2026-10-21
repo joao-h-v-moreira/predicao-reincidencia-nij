@@ -1,0 +1,32 @@
+variavel,tipo,teste,valor,limiar,ultrapassa_limiar
+Residence_PUMA,categorica,V de Cramer,0.4166170778518134,0.2,True
+Gang_Affiliated,categorica,V de Cramer,0.19465622767273966,0.2,False
+Gender,categorica,V de Cramer,0.17747075619648256,0.2,False
+Prison_Offense,categorica,V de Cramer,0.16769256916196515,0.2,False
+Condition_MH_SA,categorica,V de Cramer,0.167661028895199,0.2,False
+Prior_Arrest_Episodes_Violent,categorica,V de Cramer,0.14323037310725126,0.2,False
+Age_at_Release,categorica,V de Cramer,0.14200606036714672,0.2,False
+Prior_Arrest_Episodes_GunCharges,categorica,V de Cramer,0.12174977146446105,0.2,False
+Prior_Conviction_Episodes_Viol,categorica,V de Cramer,0.10623238531327032,0.2,False
+Prior_Arrest_Episodes_Drug,categorica,V de Cramer,0.10556446620291075,0.2,False
+Dependents,categorica,V de Cramer,0.10461535516764765,0.2,False
+Prison_Years,categorica,V de Cramer,0.10224325233913832,0.2,False
+Prior_Arrest_Episodes_Property,categorica,V de Cramer,0.09838824091267019,0.2,False
+Prior_Conviction_Episodes_Prop,categorica,V de Cramer,0.09283286627466546,0.2,False
+Education_Level,categorica,V de Cramer,0.0843787952002543,0.2,False
+Prior_Arrest_Episodes_Misd,categorica,V de Cramer,0.07950472757163662,0.2,False
+Prior_Conviction_Episodes_GunCharges,categorica,V de Cramer,0.07522531017946989,0.2,False
+Prior_Revocations_Probation,categorica,V de Cramer,0.06752055976956406,0.2,False
+Prior_Arrest_Episodes_PPViolationCharges,categorica,V de Cramer,0.06497548545150206,0.2,False
+Prior_Conviction_Episodes_Misd,categorica,V de Cramer,0.05595045871992676,0.2,False
+Prior_Conviction_Episodes_Drug,categorica,V de Cramer,0.05592128061536453,0.2,False
+Prior_Conviction_Episodes_PPViolationCharges,categorica,V de Cramer,0.04755220790597342,0.2,False
+Prior_Arrest_Episodes_Felony,categorica,V de Cramer,0.0469259302141305,0.2,False
+Prior_Revocations_Parole,categorica,V de Cramer,0.04477004935418748,0.2,False
+Prior_Arrest_Episodes_DVCharges,categorica,V de Cramer,0.03725257618898727,0.2,False
+Supervision_Risk_Score_First,numerica,ponto-bisserial,0.03666618948813355,0.3,False
+Supervision_Level_First,categorica,V de Cramer,0.0343047610678635,0.2,False
+Condition_Cog_Ed,categorica,V de Cramer,0.033104917588939034,0.2,False
+Prior_Conviction_Episodes_Felony,categorica,V de Cramer,0.029880673189082472,0.2,False
+Condition_Other,categorica,V de Cramer,0.005126719838315865,0.2,False
+Prior_Conviction_Episodes_DomesticViolenceCharges,categorica,V de Cramer,0.0005406200681922904,0.2,False

@@ -1,0 +1,29 @@
+{"evento": "ambiente_registrado", "timestamp": "2026-10-17T00:53:29", "metadados": {"python": "3.15.0", "sistema": "Windows-11-10.0.26200-SP0", "pandas": "3.0.6", "numpy": "2.5.4", "scikit-learn": "1.9.1", "scipy": "1.18.1", "fairlearn": "0.15.0", "matplotlib": "3.11.2"}}
+{"evento": "dataset_importado", "timestamp": "2026-10-17T00:53:29", "metadados": {"n_linhas": 25835, "n_colunas": 54}}
+{"evento": "eda_concluida", "timestamp": "2026-10-17T00:53:29", "metadados": {"figura": "results\\eda_distribuicoes.png"}}
+{"evento": "dados_preprocessados", "timestamp": "2026-10-17T00:53:30", "metadados": {"n_atributos_soltura": 31, "n_atributos_completo": 47, "atributos_soltura": ["Gender", "Age_at_Release", "Residence_PUMA", "Gang_Affiliated", "Supervision_Risk_Score_First", "Supervision_Level_First", "Education_Level", "Dependents", "Prison_Offense", "Prison_Years", "Prior_Arrest_Episodes_Felony", "Prior_Arrest_Episodes_Misd", "Prior_Arrest_Episodes_Violent", "Prior_Arrest_Episodes_Property", "Prior_Arrest_Episodes_Drug", "Prior_Arrest_Episodes_PPViolationCharges", "Prior_Arrest_Episodes_DVCharges", "Prior_Arrest_Episodes_GunCharges", "Prior_Conviction_Episodes_Felony", "Prior_Conviction_Episodes_Misd", "Prior_Conviction_Episodes_Viol", "Prior_Conviction_Episodes_Prop", "Prior_Conviction_Episodes_Drug", "Prior_Conviction_Episodes_PPViolationCharges", "Prior_Conviction_Episodes_DomesticViolenceCharges", "Prior_Conviction_Episodes_GunCharges", "Prior_Revocations_Parole", "Prior_Revocations_Probation", "Condition_MH_SA", "Condition_Cog_Ed", "Condition_Other"]}}
+{"evento": "proxies_identificados", "timestamp": "2026-10-17T00:53:30", "metadados": {"proxies": ["Residence_PUMA"], "limiar_cramer_v": 0.2, "limiar_correlacao_numerica": 0.3, "n_treino": 18084}}
+{"evento": "modelo_treinado", "timestamp": "2026-10-17T00:53:35", "metadados": {"modelo": "regressao_logistica", "hiperparametros": {"C": 10.0}}}
+{"evento": "avaliacao_concluida", "timestamp": "2026-10-17T00:53:46", "metadados": {"modelo": "regressao_logistica", "auc_roc": 0.7337001393806154}}
+{"evento": "modelo_treinado", "timestamp": "2026-10-17T00:53:58", "metadados": {"modelo": "random_forest", "hiperparametros": {"max_depth": 10, "min_samples_leaf": 5, "n_estimators": 300}}}
+{"evento": "avaliacao_concluida", "timestamp": "2026-10-17T00:54:09", "metadados": {"modelo": "random_forest", "auc_roc": 0.7288160898691296}}
+{"evento": "modelo_treinado", "timestamp": "2026-10-17T00:54:41", "metadados": {"modelo": "gradient_boosting", "hiperparametros": {"learning_rate": 0.1, "max_depth": 2, "n_estimators": 200}}}
+{"evento": "avaliacao_concluida", "timestamp": "2026-10-17T00:54:53", "metadados": {"modelo": "gradient_boosting", "auc_roc": 0.7361835896372831}}
+{"evento": "modelo_treinado", "timestamp": "2026-10-17T00:54:53", "metadados": {"modelo": "baseline_dressel_farid"}}
+{"evento": "avaliacao_concluida", "timestamp": "2026-10-17T00:55:05", "metadados": {"modelo": "baseline_dressel_farid", "auc_roc": 0.6755817981463197}}
+{"evento": "comparacao_concluida", "timestamp": "2026-10-17T00:55:05", "metadados": {"n_modelos": 4}}
+{"evento": "graficos_gerados", "timestamp": "2026-10-17T00:55:36", "metadados": {"arquivos": ["curvas_roc.png", "curvas_calibracao.png", "calibracao_por_grupo_raca.png"]}}
+{"evento": "ablacao_concluida", "timestamp": "2026-10-17T00:56:59", "metadados": {"n_variantes": 4}}
+{"evento": "proxy_multivariado_concluido", "timestamp": "2026-10-17T00:57:10", "metadados": {"grupo_positivo": "BLACK", "grupo_negativo": "WHITE", "n_amostras": 25835, "n_variaveis_originais": 30, "auc_roc_reconstrucao_raca": 0.7424188560472504, "tamanho_efeito_rice_harris": "grande", "conjunto_atributos": "soltura"}}
+{"evento": "pos_processamento_concluido", "timestamp": "2026-10-17T00:57:16", "metadados": {"n_calibracao": 3875, "n_avaliacao": 3876}}
+{"evento": "sensibilidade_concluida", "timestamp": "2026-10-17T00:58:42", "metadados": {"auc_soltura": 0.7361835896372831, "auc_completo": 0.8148321704644019}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T00:59:24", "metadados": {"semente": 43}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:00:07", "metadados": {"semente": 44}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:00:49", "metadados": {"semente": 45}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:01:31", "metadados": {"semente": 46}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:02:13", "metadados": {"semente": 47}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:02:56", "metadados": {"semente": 48}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:03:42", "metadados": {"semente": 49}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:04:25", "metadados": {"semente": 50}}
+{"evento": "repeticao_concluida", "timestamp": "2026-10-17T01:05:07", "metadados": {"semente": 51}}
+{"evento": "relatorio_gerado", "timestamp": "2026-10-17T01:05:07", "metadados": {"arquivos": ["comparacao_modelos.csv", "estudo_ablacao.csv", "equidade_detalhada.csv", "decomposicao_disparidade_fpr.csv", "diferencas_auc_pareadas.csv", "diagnostico_associacao_raca.csv", "diagnostico_proxy_multivariado.csv", "importancia_proxy_multivariado.csv", "importancia_atributos_modelo.csv", "pos_processamento_equidade.csv", "analise_sensibilidade_atributos.csv", "repeticoes_por_semente.csv", "resumo_repeticoes.csv", "resumo_resultados.txt"], "duracao_minutos": 11.6}}

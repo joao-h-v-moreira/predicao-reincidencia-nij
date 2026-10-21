@@ -1,0 +1,44 @@
+RESUMO DOS RESULTADOS
+=====================
+
+Registros: 25835; conjunto de teste da divisão de referência (semente 42): 7751.
+Proxies removidos (teste bivariado no treino): Residence_PUMA.
+
+Desempenho na divisão de referência (AUC-ROC [IC 95%]; Brier):
+  - regressao_logistica: 0,734 [0,722; 0,745]; Brier 0,204
+  - random_forest: 0,729 [0,717; 0,740]; Brier 0,208
+  - gradient_boosting: 0,736 [0,724; 0,747]; Brier 0,203
+  - baseline_dressel_farid: 0,676 [0,663; 0,688]; Brier 0,221
+Diferenças pareadas de AUC-ROC (A − B):
+  - gradient_boosting − random_forest: 0,0074 [0,0037; 0,0106]
+  - gradient_boosting − regressao_logistica: 0,0025 [-0,0002; 0,0050]
+  - random_forest − regressao_logistica: -0,0049 [-0,0093; -0,0003]
+  - regressao_logistica − baseline_dressel_farid: 0,0581 [0,0482; 0,0676]
+  - random_forest − baseline_dressel_farid: 0,0532 [0,0427; 0,0638]
+  - gradient_boosting − baseline_dressel_farid: 0,0606 [0,0504; 0,0700]
+AUC-ROC nas repetições do laço externo (média ± desvio-padrão):
+  - regressao_logistica: 0,734 ± 0,006 (10 divisões)
+  - random_forest: 0,728 ± 0,007 (10 divisões)
+  - gradient_boosting: 0,735 ± 0,006 (10 divisões)
+  - baseline_dressel_farid: 0,677 ± 0,005 (10 divisões)
+
+Equidade do modelo detalhado (gradient_boosting):
+  - BLACK_vs_WHITE: disparate impact 0,866 [0,813; 0,923]; dif. FPR 0,076 [0,043; 0,110]; dif. FNR -0,015 [-0,039; 0,006]
+  - M_vs_F: disparate impact 0,522 [0,488; 0,559]; dif. FPR 0,243 [0,199; 0,287]; dif. FNR -0,199 [-0,245; -0,155]
+  - Decomposição da razão de FPR por raça: taxa-base 0,40, precisão 0,47, sensibilidade 0,12
+  - Reconstrução da raça a partir dos atributos finais: AUC-ROC 0,742 (efeito grande)
+
+Ablação (variação em relação à variante com raça e com proxies):
+  - com_raca_com_proxies: Δ AUC 0,0000 [0,0000; 0,0000]; Δ dif. FPR 0,000 [0,000; 0,000]
+  - com_raca_sem_proxies: Δ AUC 0,0004 [-0,0009; 0,0019]; Δ dif. FPR 0,003 [-0,007; 0,014]
+  - sem_raca_com_proxies: Δ AUC -0,0001 [-0,0008; 0,0006]; Δ dif. FPR -0,012 [-0,021; -0,003]
+  - sem_raca_sem_proxies: Δ AUC 0,0009 [-0,0005; 0,0024]; Δ dif. FPR -0,014 [-0,025; -0,003]
+
+Pós-processamento por limiar por grupo (metade de avaliação do teste):
+  - dif. FPR: 0,066 -> -0,043 [-0,092; 0,006]; redução pareada -0,108 [-0,138; -0,081]
+  - recall: 0,823 -> 0,786; acurácia: 0,688 -> 0,678
+
+Sensibilidade (conjunto completo, com variáveis do período de supervisão):
+  - Δ AUC-ROC em relação ao conjunto da soltura: 0,079 [0,070; 0,087]
+
+Duração da execução: 11,6 minutos.
