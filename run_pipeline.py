@@ -640,7 +640,7 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
         # ---- (a) Robustez a Gang_Affiliated (codifica o sexo) ----
         # Mesmos hiperparâmetros escolhidos para cada modelo em cada divisão
         # na análise principal, para isolar o efeito da remoção (como na ablação).
-        _log("Robustez: análise principal sem Gang_Affiliated (e sem Gang_Affiliated e Gender), nas dez divisões")
+        _log(f"Robustez: análise principal sem Gang_Affiliated (e sem Gang_Affiliated e Gender), em {len(sementes)} divisões")
         previsoes_variantes = {}
         for semente in sementes:
             xs_tr0, xs_te0, ys_tr, ys_te = divisor.dividir_treino_teste(x_soltura, y, semente=semente)
@@ -667,7 +667,7 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
         registrador.publicar("robustez_gang_affiliated_concluida", {"variantes": list(VARIANTES_ROBUSTEZ)})
 
         # ---- (b) Sensibilidade aos limiares de identificação de proxies ----
-        _log("Sensibilidade aos limiares de proxy (rigoroso e permissivo), nas dez divisões")
+        _log(f"Sensibilidade aos limiares de proxy (rigoroso e permissivo), em {len(sementes)} divisões")
         for config, limiares in LIMIARES_PROXY.items():
             if config == "principal":
                 continue
