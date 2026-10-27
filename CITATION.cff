@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Se usar este código, cite-o pela versão arquivada no Zenodo (DOI da versão)."
+title: "Predição de reincidência criminal por meio de aprendizado de máquina: pipeline experimental com avaliação de equidade racial"
+type: software
+version: 2.0.0
+repository-code: "https://github.com/joao-h-v-moreira/predicao-reincidencia-nij"
+authors:
+  - given-names: Douglas Sanches
+    family-names: Ferreira
+    affiliation: Universidade São Judas Tadeu (USJT)
+  - given-names: João Henrique Vasques
+    family-names: Moreira
+    affiliation: Universidade São Judas Tadeu (USJT)
+  - given-names: João Victor Alves
+    family-names: Navarro
+    affiliation: Universidade São Judas Tadeu (USJT)
+  - given-names: Lucas Castilho
+    family-names: Bueno
+    affiliation: Universidade São Judas Tadeu (USJT)
+  - given-names: Verônica de Souza Menezes
+    family-names: Costa
+    affiliation: Universidade São Judas Tadeu (USJT)
+keywords:
+  - aprendizado de máquina
+  - equidade algorítmica
+  - reincidência criminal
+  - liberdade condicional
+  - NIJ Recidivism Forecasting Challenge

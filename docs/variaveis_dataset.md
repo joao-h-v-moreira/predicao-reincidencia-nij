@@ -28,7 +28,7 @@ ultrapassa o limiar. A raça em si nunca é um atributo de entrada do modelo;
 | `Recidivism_Arrest_Year2` | Idem |
 | `Recidivism_Arrest_Year3` | Idem |
 | `Race` | Removida do conjunto de atributos; retida separadamente apenas para avaliação de equidade (nunca como entrada do modelo) |
-| `Training_Sample` | **Não pertence ao codebook oficial (Apêndice 2) do NIJ.** É a 54ª coluna presente no CSV real, ausente das 53 variáveis documentadas — um artefato administrativo do desafio original (indicador de qual lote treino/teste o NIJ usou na competição), não um atributo real da pessoa avaliada. Associação empírica com raça é desprezível (V de Cramér ≈ 0,008), portanto não é um proxy; é excluída por não ser uma variável válida sobre o indivíduo, e não por motivo de viés |
+| `Training_Sample` | **Não pertence ao codebook oficial (Apêndice 2) do NIJ.** É a 54ª coluna presente no CSV real, ausente das 53 variáveis documentadas — um artefato administrativo do desafio original (indicador de qual lote treino/teste o NIJ usou na competição), não um atributo real da pessoa avaliada. Associação empírica com raça é desprezível (V de Cramér ≈ 0,008), portanto não é um proxy; é excluída por não ser uma variável válida sobre o indivíduo, e não por motivo de viés. Não entra como atributo, mas é usada na comparação com o desafio (`src/analises_complementares.py`) para reproduzir a divisão oficial treino/teste do primeiro ano, com `Recidivism_Arrest_Year1` como alvo |
 
 ## Variável-alvo
 

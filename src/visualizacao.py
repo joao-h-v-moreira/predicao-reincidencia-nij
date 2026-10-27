@@ -117,3 +117,48 @@ def plotar_calibracao_por_grupo(y_teste, y_proba, grupo, nome_modelo: str, camin
     fig.savefig(caminho_saida, dpi=150)
     plt.close(fig)
     return caminho_saida
+
+
+def plotar_intervalos(linhas: list[dict], titulo: str, rotulo_x: str, caminho_saida, referencia: float = 0.0,
+                      escala: float = 100.0, casas: int = 1) -> Path:
+    """
+    Gráfico de intervalos (forest plot): cada linha tem "rotulo", "valor",
+    "ic_inferior", "ic_superior" e, opcionalmente, "serie" (para
+    diferenciar cores/marcadores, ex.: antes × depois). Os valores são
+    multiplicados por `escala` (100 = pontos percentuais). A linha
+    vertical tracejada marca o valor de igualdade (`referencia`).
+    """
+    caminho_saida = Path(caminho_saida)
+    caminho_saida.parent.mkdir(parents=True, exist_ok=True)
+    rotulos = list(dict.fromkeys(l["rotulo"] for l in linhas))
+    series = list(dict.fromkeys(l.get("serie", "") for l in linhas))
+    # primeira série desenhada acima das demais em cada linha
+    deslocamento = {s: ((len(series) - 1) / 2 - i) * 0.22 for i, s in enumerate(series)}
+    marcadores = ["o", "s", "D", "^"]
+    fig, ax = plt.subplots(figsize=(8, 0.45 * len(rotulos) + 1.6))
+    for i_s, s in enumerate(series):
+        ys, xs, erros = [], [], [[], []]
+        for l in linhas:
+            if l.get("serie", "") != s:
+                continue
+            y = len(rotulos) - 1 - rotulos.index(l["rotulo"]) + deslocamento[s]
+            v, lo, hi = (escala * l[k] for k in ("valor", "ic_inferior", "ic_superior"))
+            ys.append(y)
+            xs.append(v)
+            erros[0].append(v - lo)
+            erros[1].append(hi - v)
+        ax.errorbar(xs, ys, xerr=erros, fmt=marcadores[i_s % len(marcadores)], color=CORES_GRUPOS[i_s % len(CORES_GRUPOS)],
+                    capsize=3, linewidth=1.5, label=s or None)
+    ax.axvline(escala * referencia, linestyle="--", color="gray", linewidth=1)
+    ax.set_yticks(range(len(rotulos)))
+    ax.set_yticklabels(list(reversed(rotulos)), fontsize=9)
+    ax.set_xlabel(rotulo_x)
+    fig.suptitle(titulo, fontsize=11)
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:.{casas}f}".replace(".", ",")))
+    if any(series):
+        ax.legend(loc="best", fontsize=9)
+    ax.grid(axis="x", linestyle=":", linewidth=0.6)
+    fig.tight_layout()
+    fig.savefig(caminho_saida, dpi=150)
+    plt.close(fig)
+    return caminho_saida

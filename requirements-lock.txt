@@ -1,0 +1,9 @@
+# Versões exatas usadas na execução registrada em results/ambiente_execucao.json
+# (Python 3.15.0, Windows 11). Para reproduzir os números publicados:
+#   pip install -r requirements-lock.txt
+pandas==3.0.6
+numpy==2.5.4
+scikit-learn==1.9.1
+scipy==1.18.1
+fairlearn==0.15.0
+matplotlib==3.11.2

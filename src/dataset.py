@@ -37,6 +37,9 @@ COLUNAS_EXCLUIDAS_DOS_ATRIBUTOS = [
     # com raça é desprezível (V ~ 0,008 em testes empíricos), então não é
     # um proxy; é excluída por não ser uma informação válida sobre o
     # indivíduo para fins de predição.
+    # Ela é usada só para reproduzir a divisão oficial treino/teste do
+    # desafio na comparação com os resultados do NIJ
+    # (analises_complementares.comparar_com_desafio_nij).
     "Training_Sample",
 ]
 

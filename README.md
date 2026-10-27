@@ -30,6 +30,11 @@ a equidade do modelo entre grupos raciais (e de sexo).
 | Incerteza | IC de 95% por bootstrap (1000 reamostragens) para métricas de desempenho, métricas por grupo e diferenças entre grupos; bootstrap pareado para a diferença de AUC entre modelos; média ± desvio-padrão nas 10 repetições. |
 | Comparações entre grupos com direção fixa | Grupo A × grupo B de referência: BLACK × WHITE (raça) e M × F (sexo) (`ORDEM_GRUPOS` em `src/fairness.py`). As diferenças `dif_fpr`, `dif_fnr`, `dif_tpr`, `dif_ppv` são **A − B, com sinal**, e o IC pode conter zero. Uma diferença do tipo "maior − menor" nunca é negativa, e o IC por bootstrap dela nunca contém zero, mesmo sem disparidade alguma; por isso ela não é usada. |
 | Convenção do disparate impact | Taxa de predição **favorável** (baixo risco) do grupo A / a do grupo B. Abaixo de 0,80 é alerta contra o grupo A (regra dos quatro quintos); acima de 1, a direção se inverte (acima de 1,25, alerta contra o grupo B). |
+| Pós-processamento (limiar por grupo) | Limiares ajustados **só no treino**, sobre escores fora da dobra (validação cruzada de 5 dobras), e avaliados no conjunto de teste **inteiro** de cada uma das 10 divisões, com IC para acurácia, recall e diferenças entre grupos. |
+| Robustez a `Gang_Affiliated` | A variável está ausente para todas as mulheres, então a categoria "Ausente" codifica o sexo. A análise principal é repetida sem ela, e sem ela e sem `Gender`, nas 10 divisões (mesmos hiperparâmetros de cada divisão, para isolar o efeito da remoção). |
+| Sensibilidade aos limiares de proxy | Além do critério principal (V ≥ 0,20; \|r\| ≥ 0,30), um rigoroso (0,10; 0,10) e um permissivo (0,30; 0,50), nas 10 divisões (`LIMIARES_PROXY` em `run_pipeline.py`). |
+| Interseccionalidade | Métricas por raça × sexo (quatro subgrupos) e diferenças raciais dentro de cada sexo, com IC. |
+| Comparação com o desafio | Desenho do primeiro ano do desafio do NIJ (divisão oficial `Training_Sample`, alvo `Recidivism_Arrest_Year1`): erro de Brier por sexo e índice de equidade, ao lado dos resultados oficiais publicados pelo NIJ. |
 | Decomposição da disparidade de FPR | Identidade de Chouldechova (2017): quanto da razão FPR_A / FPR_B vem da taxa-base, da precisão (PPV) e da sensibilidade (FNR). As três parcelas somam 1. Uma parcela negativa é um fator que reduz a disparidade; uma parcela acima de 1 é um fator compensado em parte pelos outros. Com razão de FPR próxima de 1, as parcelas ficam instáveis; nesse caso, leia as razões dos termos. |
 
 ## Estrutura do repositório
@@ -54,6 +59,7 @@ predicao-reincidencia-nij/
 │   ├── comparison.py         # UC09 - comparar modelos
 │   ├── proxy_multivariado.py # diagnóstico de proxy combinatório
 │   ├── postprocessing.py     # pós-processamento por limiar por grupo
+│   ├── analises_complementares.py # interseccionalidade e comparação com o desafio do NIJ
 │   ├── visualizacao.py       # curvas ROC e de calibração
 │   ├── report.py             # UC10 - exportar relatório
 │   ├── events.py             # registrador de eventos (RNF11)
@@ -91,18 +97,21 @@ No Google Colab:
 
 Opções:
 
-- `--repeticoes N` — número de divisões do laço externo (padrão 10). Com 10,
-  a execução completa com os dados reais levou de 12 a 13 minutos no
-  computador do autor (o tempo varia com o hardware) (a busca de hiperparâmetros é refeita em cada divisão).
-  Para um teste rápido, use `--repeticoes 2`.
+- `--repeticoes N` — número de divisões do laço externo (padrão 10). A busca
+  de hiperparâmetros é refeita em cada divisão, e as análises complementares
+  (robustez, limiares de proxy, pós-processamento) também percorrem as 10
+  divisões, por isso a execução completa leva bem mais que a versão anterior
+  (o tempo varia com o hardware). Para um teste rápido, use `--repeticoes 2`.
+- `--sem-complementares` — roda só a análise principal (sem robustez,
+  limiares de proxy, interseccionalidade e comparação com o desafio).
 - `--sintetico` — smoke test com dados artificiais (ver abaixo).
 
 O terminal mostra o horário de cada etapa, para indicar que o processo não travou.
 
 **Reprodutibilidade:** cada execução grava `results/ambiente_execucao.json`
-com as versões de Python e das bibliotecas usadas. Depois da primeira
-execução bem-sucedida com os dados reais, registre também as versões exatas
-com `pip freeze > requirements-lock.txt` e versione esse arquivo.
+com as versões de Python e das bibliotecas usadas. As versões exatas da
+execução publicada estão em `requirements-lock.txt` (`pip install -r
+requirements-lock.txt` para reproduzir os mesmos números).
 
 ## Saídas geradas (pasta `results/`)
 
@@ -156,13 +165,39 @@ Proxies e mitigação:
   com IC de 95%. As colunas `delta_*` trazem a diferença pareada em relação
   à variante "com raça, com proxies", com IC por bootstrap pareado (na
   própria variante de referência, os `delta_*` são zero).
-- `pos_processamento_equidade.csv` — antes e depois do ajuste de limiar por
-  grupo (HARDT; PRICE; SREBRO, 2016), com ICs. Atenção: esse ajuste usa a
-  raça no momento da decisão (ver docstring de `src/postprocessing.py`).
-  A linha `diferenca_depois_menos_antes` traz a diferença pareada, com IC.
-  Esta análise usa só a metade de avaliação do conjunto de teste (a outra
-  metade ajusta os limiares), por isso os valores "antes" não coincidem
-  com os de `comparacao_modelos.csv`.
+- `pos_processamento_equidade.csv` — divisão de referência: antes e depois
+  do ajuste de limiar por grupo (HARDT; PRICE; SREBRO, 2016), com ICs para
+  acurácia, recall, FPR/TPR/PPV por grupo e diferenças entre grupos. Os
+  limiares são ajustados só no treino (escores fora da dobra) e avaliados no
+  teste inteiro. A linha `diferenca_depois_menos_antes` traz a diferença
+  pareada, com IC. Atenção: esse ajuste usa a raça no momento da decisão
+  (ver docstring de `src/postprocessing.py`).
+- `pos_processamento_repeticoes.csv` / `pos_processamento_resumo.csv` — o
+  mesmo procedimento em cada uma das 10 divisões (com IC em cada uma) e o
+  resumo (média ± desvio-padrão e quantas divisões têm IC contendo zero,
+  diferença negativa significativa etc.); figura
+  `pos_processamento_repeticoes.png`.
+
+Robustez e análises complementares:
+- `robustez_gang_affiliated.csv` — divisão de referência, Gradient Boosting:
+  modelo principal × sem `Gang_Affiliated` × sem `Gang_Affiliated` e
+  `Gender`, com IC e diferenças pareadas em relação ao principal (por raça e
+  por sexo); `robustez_gang_affiliated_repeticoes.csv` e `_resumo.csv` — as
+  três variantes, para os três algoritmos, nas 10 divisões.
+- `sensibilidade_limiares_proxy.csv` (+ `_repeticoes.csv`, `_resumo.csv`) —
+  variáveis removidas, desempenho, disparidade e reconstrução da raça com os
+  limiares rigoroso, principal e permissivo.
+- `robustez_dif_fpr_racial.png` — diferença de FPR racial (com IC) em todas
+  as análises de robustez, lado a lado.
+- `equidade_interseccional.csv` — métricas por raça × sexo e diferenças
+  raciais dentro de cada sexo (e entre sexos dentro de cada grupo racial),
+  com IC. As repetições (`repeticoes_por_semente.csv`) trazem também
+  `raca_dif_fpr_homens` e `raca_dif_fpr_mulheres`.
+- `comparacao_desafio_nij.csv` — desenho do primeiro ano do desafio
+  (divisão oficial, alvo de 1 ano): Brier de homens, de mulheres e médio,
+  índice de equidade por sexo e AUC dos modelos deste trabalho, de um
+  modelo ingênuo (taxa-base por sexo) e os resultados oficiais dos
+  vencedores publicados pelo NIJ.
 
 Sensibilidade e auditoria:
 - `analise_sensibilidade_atributos.csv` — conjunto "soltura" (principal) ×
@@ -173,6 +208,13 @@ Sensibilidade e auditoria:
   "Ausente" da imputação passa a codificar o sexo.
 - `ambiente_execucao.json`, `eventos.jsonl` (log de auditoria, RNF11, só
   com metadados de execução).
+
+## Versão e como citar
+
+A versão usada no artigo e no TCC é marcada com uma tag (`v2.0.0`) e
+arquivada no Zenodo, que atribui um DOI à versão (ver `CITATION.cff`).
+Cite o código pelo DOI da versão, e não apenas pelo endereço do GitHub, para
+que o leitor encontre exatamente o código que gerou os números publicados.
 
 ## Observação sobre o smoke test
 
@@ -194,3 +236,4 @@ ponta. **Nenhuma métrica produzida nesse modo é resultado do trabalho.**
 - REA, L. M.; PARKER, R. A. *Designing and conducting survey research*. 1992.
 - RICE, M. E.; HARRIS, G. T. Comparing effect sizes in follow-up studies: ROC area, Cohen's d, and r. *Law and Human Behavior*, 2005.
 - WHITE, V. et al. *NIJ Recidivism Forecasting Challenge: contextualizing the results*. NIJ, 2022.
+- NATIONAL INSTITUTE OF JUSTICE. *Recidivism Forecasting Challenge Results*. https://nij.ojp.gov/funding/recidivism-forecasting-challenge-results.

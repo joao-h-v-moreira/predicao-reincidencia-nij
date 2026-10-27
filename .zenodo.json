@@ -1,0 +1,14 @@
+{
+  "title": "Predição de reincidência criminal por meio de aprendizado de máquina: pipeline experimental com avaliação de equidade racial",
+  "upload_type": "software",
+  "language": "por",
+  "description": "Pipeline experimental (Python/scikit-learn) que estima, no momento da soltura, o risco de nova prisão em até três anos de pessoas em liberdade condicional, com o Full Dataset do NIJ Recidivism Forecasting Challenge, sem a variável racial entre os atributos, e avalia o desempenho e a equidade entre grupos raciais e de sexo (validação aninhada, intervalos de confiança por bootstrap, estudo de ablação, decomposição das taxas de erro, pós-processamento por limiar por grupo e análises de robustez). Trabalho de Conclusão de Curso de Engenharia de Computação da Universidade São Judas Tadeu.",
+  "creators": [
+    {"name": "Ferreira, Douglas Sanches", "affiliation": "Universidade São Judas Tadeu (USJT)"},
+    {"name": "Moreira, João Henrique Vasques", "affiliation": "Universidade São Judas Tadeu (USJT)"},
+    {"name": "Navarro, João Victor Alves", "affiliation": "Universidade São Judas Tadeu (USJT)"},
+    {"name": "Bueno, Lucas Castilho", "affiliation": "Universidade São Judas Tadeu (USJT)"},
+    {"name": "Costa, Verônica de Souza Menezes", "affiliation": "Universidade São Judas Tadeu (USJT)"}
+  ],
+  "keywords": ["aprendizado de máquina", "equidade algorítmica", "reincidência criminal", "liberdade condicional", "NIJ Recidivism Forecasting Challenge"]
+}

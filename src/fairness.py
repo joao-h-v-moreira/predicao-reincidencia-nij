@@ -327,6 +327,56 @@ class AvaliadorEquidade:
             resultado[f"delta_{k}_ic_superior"] = float(np.percentile(amostras[k], 97.5)) if amostras[k] else float("nan")
         return resultado
 
+    def avaliar_decisoes_pareado(self, y_real, y_previsto_antes, y_previsto_depois, grupo,
+                                 ordem: tuple[str, str] | None = None) -> dict:
+        """
+        Compara duas regras de decisão sobre as MESMAS pessoas (usado no
+        pós-processamento: limiar único "antes" × limiar por grupo
+        "depois"). Para cada regra, devolve acurácia, recall, taxa de alto
+        risco e as métricas por grupo e entre grupos (FPR, TPR, PPV,
+        diferenças A − B e disparate impact), todas com IC de 95% por
+        bootstrap; e as diferenças depois − antes, com IC por bootstrap
+        PAREADO (as duas regras avaliadas nas mesmas reamostragens).
+        """
+        yr = np.asarray(y_real).astype(int)
+        regras = {"antes": np.asarray(y_previsto_antes).astype(int), "depois": np.asarray(y_previsto_depois).astype(int)}
+        g = pd.Series(grupo).astype(object).to_numpy()
+        a, b = self._ordem(g, ordem)
+
+        def medidas(idx):
+            r, gg = yr[idx], g[idx]
+            res = {}
+            for etapa, yp_full in regras.items():
+                p = yp_full[idx]
+                geral = _metricas_grupo(r, p)
+                res[f"{etapa}__acuracia"] = float((p == r).mean())
+                res[f"{etapa}__recall"] = geral["tpr"]
+                res[f"{etapa}__taxa_alto_risco"] = geral["taxa_alto_risco"]
+                por = {v: _metricas_grupo(r[gg == v], p[gg == v]) for v in (a, b)}
+                for v in (a, b):
+                    for met in ("fpr", "tpr", "ppv", "taxa_alto_risco"):
+                        res[f"{etapa}__{met}_{v}"] = por[v][met]
+                for met, valor in _resumo_entre_grupos(por, (a, b)).items():
+                    res[f"{etapa}__{met}"] = valor
+            for met in ("acuracia", "recall", "disparate_impact_ratio", "dif_fpr", "dif_tpr", "dif_ppv"):
+                res[f"delta__{met}"] = res[f"depois__{met}"] - res[f"antes__{met}"]
+            return res
+
+        pontual = medidas(np.arange(len(yr)))
+        rng = np.random.default_rng(self.semente_aleatoria)
+        amostras = {k: [] for k in pontual}
+        for _ in range(self.n_repeticoes_bootstrap):
+            idx = rng.integers(0, len(yr), len(yr))
+            for k, v in medidas(idx).items():
+                if not (isinstance(v, float) and math.isnan(v)):
+                    amostras[k].append(v)
+        resultado = {}
+        for k, v in pontual.items():
+            resultado[k] = v
+            resultado[f"{k}_ic_inferior"] = float(np.percentile(amostras[k], 2.5)) if amostras[k] else float("nan")
+            resultado[f"{k}_ic_superior"] = float(np.percentile(amostras[k], 97.5)) if amostras[k] else float("nan")
+        return resultado
+
     def calcular_indice_nij(self, y_real, y_proba, grupo, grupos=("BLACK", "WHITE"), limiar: float = 0.5) -> dict:
         """
         Índice oficial de pontuação do NIJ Recidivism Forecasting

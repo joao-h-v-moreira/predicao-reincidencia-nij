@@ -16,49 +16,92 @@ ser conhecida NO MOMENTO DA DECISÃO. Ou seja, a raça deixa de ser usada
 como atributo do modelo, mas passa a ser usada na regra de decisão --
 o que entra em tensão com a premissa central do trabalho e configura
 tratamento explicitamente diferenciado por raça (LIPTON; CHOULDECHOVA;
-MCAULEY, 2018). Por isso o resultado é reportado como um limite
-do que seria alcançável com esse tipo de intervenção, e não como uma
+MCAULEY, 2018). Por isso o resultado é reportado como uma estimativa do
+que seria alcançável com esse tipo de intervenção, e não como uma
 recomendação de uso.
 
-Cuidado metodológico: o otimizador é ajustado numa metade do conjunto
-de teste original (calibração) e avaliado na outra metade (avaliação);
-ajustar e avaliar o limiar nos mesmos dados inflaria o ganho aparente.
+Desenho (revisão do orientador):
+- os limiares são ajustados SOMENTE COM O TREINO, sobre escores fora da
+  dobra (out-of-fold): o pipeline (pré-processamento + classificador,
+  com os hiperparâmetros já escolhidos) é reajustado em k dobras do
+  treino, e cada registro do treino recebe o escore de um modelo que não
+  o viu. Isso evita ajustar os limiares sobre escores de treino
+  otimistas, sem consumir nenhuma parte do conjunto de teste;
+- os limiares assim obtidos são aplicados aos escores do modelo final
+  (ajustado no treino inteiro) sobre o conjunto de teste INTEIRO, e o
+  procedimento é repetido nas dez divisões do laço externo, de modo que
+  o efeito é reportado com IC por bootstrap em cada divisão e com média
+  e desvio-padrão entre as divisões.
 """
 from __future__ import annotations
 
-import pandas as pd
+import numpy as np
 from fairlearn.postprocessing import ThresholdOptimizer
-from sklearn.model_selection import train_test_split
+from sklearn.base import BaseEstimator, ClassifierMixin, clone
+from sklearn.model_selection import StratifiedKFold, cross_val_predict
+
+K_DOBRAS_LIMIAR = 5
 
 
-def dividir_calibracao_avaliacao(x_teste, y_teste, raca_teste, proporcao_calibracao: float = 0.5, semente_aleatoria: int = 42):
-    idx_calib, idx_aval = train_test_split(
-        x_teste.index, test_size=1 - proporcao_calibracao, random_state=semente_aleatoria, stratify=y_teste
-    )
-    return (
-        x_teste.loc[idx_calib], y_teste.loc[idx_calib], raca_teste.loc[idx_calib],
-        x_teste.loc[idx_aval], y_teste.loc[idx_aval], raca_teste.loc[idx_aval],
-    )
-
-
-def ajustar_limiar_por_grupo(pipeline_treinado, x_calib, y_calib, raca_calib, x_aval, raca_aval, semente_aleatoria: int = 42):
+class EscorePronto(ClassifierMixin, BaseEstimator):
     """
-    `pipeline_treinado` é o Pipeline (pré-processamento + classificador)
-    já ajustado no treino. Para o ThresholdOptimizer, os atributos são
-    transformados pelo pré-processamento já ajustado e o classificador é
-    passado sozinho (prefit=True) -- nada é reajustado.
-    Retorna (predições ajustadas na metade de avaliação, limiares por grupo).
+    "Classificador" que devolve, como probabilidade, o próprio escore
+    recebido na única coluna de X. Permite ajustar o ThresholdOptimizer
+    sobre escores já calculados (fora da dobra no treino; do modelo final
+    no teste) sem retreinar nada.
     """
-    prep = pipeline_treinado.named_steps["prep"]
-    clf = pipeline_treinado.named_steps["clf"]
-    # matrizes numéricas já transformadas pelo pré-processamento ajustado
-    # no treino (o classificador foi ajustado sobre matrizes, sem nomes de coluna)
-    xc = prep.transform(x_calib)
-    xa = prep.transform(x_aval)
 
-    otimizador = ThresholdOptimizer(
-        estimator=clf, constraints="equalized_odds", predict_method="predict_proba", prefit=True
-    )
-    otimizador.fit(xc, y_calib, sensitive_features=raca_calib)
-    y_ajustado = otimizador.predict(xa, sensitive_features=raca_aval, random_state=semente_aleatoria)
-    return y_ajustado, otimizador
+    def fit(self, x, y=None):
+        self.classes_ = np.array([0, 1])
+        return self
+
+    def predict_proba(self, x):
+        s = np.asarray(x, dtype=float).reshape(-1)
+        return np.column_stack([1 - s, s])
+
+    def predict(self, x):
+        return (self.predict_proba(x)[:, 1] >= 0.5).astype(int)
+
+
+def escores_fora_da_dobra(pipeline_treinado, x_treino, y_treino, k: int = K_DOBRAS_LIMIAR,
+                          semente_aleatoria: int = 42) -> np.ndarray:
+    """
+    Escores out-of-fold no treino: clona o Pipeline (mesmos
+    hiperparâmetros, ainda não ajustado) e o reajusta em k dobras
+    estratificadas do próprio treino.
+    """
+    cv = StratifiedKFold(n_splits=k, shuffle=True, random_state=semente_aleatoria)
+    return cross_val_predict(clone(pipeline_treinado), x_treino, y_treino, cv=cv,
+                             method="predict_proba", n_jobs=-1)[:, 1]
+
+
+def ajustar_limiares(escores_treino, y_treino, raca_treino) -> ThresholdOptimizer:
+    """Ajusta os limiares por grupo (equalized odds) sobre escores fora da dobra do treino."""
+    estimador = EscorePronto().fit(None)
+    otimizador = ThresholdOptimizer(estimator=estimador, constraints="equalized_odds",
+                                    predict_method="predict_proba", prefit=True)
+    otimizador.fit(np.asarray(escores_treino).reshape(-1, 1), np.asarray(y_treino),
+                   sensitive_features=np.asarray(raca_treino, dtype=object))
+    return otimizador
+
+
+def aplicar_limiares(otimizador: ThresholdOptimizer, escores_teste, raca_teste, semente_aleatoria: int = 42) -> np.ndarray:
+    """Aplica os limiares por grupo aos escores do modelo final no conjunto de teste."""
+    return np.asarray(otimizador.predict(np.asarray(escores_teste).reshape(-1, 1),
+                                         sensitive_features=np.asarray(raca_teste, dtype=object),
+                                         random_state=semente_aleatoria)).astype(int)
+
+
+def pos_processar(pipeline_treinado, x_treino, y_treino, raca_treino, x_teste, raca_teste,
+                  semente_aleatoria: int = 42) -> tuple[np.ndarray, np.ndarray, ThresholdOptimizer]:
+    """
+    Fluxo completo: escores fora da dobra no treino -> limiares por grupo
+    -> decisões no teste. Retorna (decisões antes, decisões depois,
+    otimizador). "Antes" é a decisão do modelo no limiar único de 0,5.
+    """
+    oof = escores_fora_da_dobra(pipeline_treinado, x_treino, y_treino, semente_aleatoria=semente_aleatoria)
+    otimizador = ajustar_limiares(oof, y_treino, raca_treino)
+    escores_teste = pipeline_treinado.predict_proba(x_teste)[:, 1]
+    antes = (escores_teste >= 0.5).astype(int)
+    depois = aplicar_limiares(otimizador, escores_teste, raca_teste, semente_aleatoria)
+    return antes, depois, otimizador
