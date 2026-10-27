@@ -34,11 +34,37 @@ Ablação (variação em relação à variante com raça e com proxies):
   - sem_raca_com_proxies: Δ AUC -0,0001 [-0,0008; 0,0006]; Δ dif. FPR -0,012 [-0,021; -0,003]
   - sem_raca_sem_proxies: Δ AUC 0,0009 [-0,0005; 0,0024]; Δ dif. FPR -0,014 [-0,025; -0,003]
 
-Pós-processamento por limiar por grupo (metade de avaliação do teste):
-  - dif. FPR: 0,066 -> -0,043 [-0,092; 0,006]; redução pareada -0,108 [-0,138; -0,081]
-  - recall: 0,823 -> 0,786; acurácia: 0,688 -> 0,678
+Pós-processamento por limiar por grupo (limiares ajustados no treino, teste inteiro da divisão de referência):
+  - dif. FPR: 0,076 [0,043; 0,110] -> 0,001 [-0,034; 0,035]; diferença pareada -0,075 [-0,092; -0,058]
+  - recall: 0,819 -> 0,793; diferença -0,025 [-0,032; -0,019]
+  - acurácia: 0,684 -> 0,673; diferença -0,011 [-0,016; -0,005]
+  - Nas 10 divisões: dif. FPR antes 0,073 ± 0,013, depois 0,004 ± 0,015; recall -0,025 ± 0,029; IC da dif. FPR depois contém zero em 10, é negativa e significativa em 0
 
 Sensibilidade (conjunto completo, com variáveis do período de supervisão):
   - Δ AUC-ROC em relação ao conjunto da soltura: 0,079 [0,070; 0,087]
 
-Duração da execução: 11,6 minutos.
+Robustez a Gang_Affiliated (divisão de referência, Gradient Boosting; Δ em relação ao principal):
+  - principal: AUC 0,736; dif. FPR raça 0,076 [0,043; 0,110]; DI sexo 0,522
+  - sem_gang_affiliated: AUC 0,725; dif. FPR raça 0,066 [0,031; 0,098]; DI sexo 0,497; Δ dif. FPR raça -0,010 [-0,026; 0,005]; Δ AUC -0,0108 [-0,0148; -0,0065]
+  - sem_gang_affiliated_e_gender: AUC 0,723; dif. FPR raça 0,049 [0,015; 0,084]; DI sexo 0,795; Δ dif. FPR raça -0,027 [-0,045; -0,009]; Δ AUC -0,0133 [-0,0178; -0,0086]
+
+Sensibilidade aos limiares de proxy (divisão de referência, Gradient Boosting):
+  - principal (V ≥ 0,20; |r| ≥ 0,30): removidas Residence_PUMA; AUC 0,736; dif. FPR raça 0,076 [0,043; 0,110]; reconstrução da raça 0,742
+  - rigoroso (V ≥ 0,10; |r| ≥ 0,10): removidas Gender;Age_at_Release;Residence_PUMA;Gang_Affiliated;Dependents;Prison_Offense;Prison_Years;Prior_Arrest_Episodes_Violent;Prior_Arrest_Episodes_Drug;Prior_Arrest_Episodes_GunCharges;Prior_Conviction_Episodes_Viol;Condition_MH_SA; AUC 0,686; dif. FPR raça 0,036 [0,005; 0,069]; reconstrução da raça 0,642
+  - permissivo (V ≥ 0,30; |r| ≥ 0,50): removidas Residence_PUMA; AUC 0,736; dif. FPR raça 0,076 [0,043; 0,110]; reconstrução da raça 0,742
+
+Equidade interseccional (Gradient Boosting): diferença de FPR BLACK − WHITE dentro de cada sexo:
+  - sexo M: 0,061 [0,021; 0,099]
+  - sexo F: -0,067 [-0,149; 0,002]
+
+Comparação com o desafio do NIJ (ano 1, divisão oficial; Brier: menor é melhor):
+  - este trabalho / regressao_logistica: Brier homens 0,1918, mulheres 0,1556, média 0,1737; índice de equidade homens 0,8048, mulheres 0,8356; AUC 0,703
+  - este trabalho / random_forest: Brier homens 0,1955, mulheres 0,1581, média 0,1768; índice de equidade homens 0,8043, mulheres 0,8419; AUC 0,695
+  - este trabalho / gradient_boosting: Brier homens 0,1920, mulheres 0,1561, média 0,1740; índice de equidade homens 0,8050, mulheres 0,8386; AUC 0,702
+  - este trabalho / baseline_dressel_farid: Brier homens 0,2041, mulheres 0,1670, média 0,1855; índice de equidade homens 0,7950, mulheres 0,8131; AUC 0,641
+  - este trabalho / ingenuo_taxa_base_por_sexo: Brier homens 0,2146, mulheres 0,1712, média 0,1929; índice de equidade homens 0,7854, mulheres 0,8288; AUC 0,524
+  - NIJ - resultados oficiais do ano 1 / Equipe grande (1º lugar): Brier homens 0,1900, mulheres 0,1538, média 0,1719
+  - NIJ - resultados oficiais do ano 1 / Equipe pequena (1º lugar): Brier homens 0,1916, mulheres 0,1542, média 0,1733
+  - NIJ - resultados oficiais do ano 1 / Viés racial (1º lugar): índice de equidade homens 0,8090, mulheres 0,8446
+
+Duração da execução: 21,4 minutos.

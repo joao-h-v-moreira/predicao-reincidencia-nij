@@ -216,6 +216,11 @@ arquivada no Zenodo, que atribui um DOI à versão (ver `CITATION.cff`).
 Cite o código pelo DOI da versão, e não apenas pelo endereço do GitHub, para
 que o leitor encontre exatamente o código que gerou os números publicados.
 
+## Licença
+
+Código distribuído sob a licença MIT (arquivo `LICENSE`). O Full Dataset do NIJ não
+faz parte do repositório e segue os termos de uso do Office of Justice Programs.
+
 ## Observação sobre o smoke test
 
 `--sintetico` gera um dataset artificial com a mesma estrutura e os mesmos

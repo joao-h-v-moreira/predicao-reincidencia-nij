@@ -97,13 +97,13 @@ random_forest,raca,BLACK,taxa_observada,0.5834092980856882,,
 random_forest,raca,BLACK,media_prevista,0.5843035205393393,,
 random_forest,raca,BLACK,calibracao_no_agregado,0.0008942224536511167,-0.013612962151448324,0.01512270028604179
 random_forest,raca,BLACK,ece,0.03814195361752836,,
-random_forest,raca,BLACK,brier,0.2111027387783258,0.20688294149629227,0.2154020590088984
+random_forest,raca,BLACK,brier,0.2111027387783258,0.20688294149629224,0.21540205900889836
 random_forest,raca,BLACK,brier_referencia,0.2430428889928528,,
 random_forest,raca,BLACK,brier_skill,0.13141775242585385,,
 random_forest,raca,WHITE,taxa_observada,0.568242640499554,,
-random_forest,raca,WHITE,media_prevista,0.5695989466703175,,
-random_forest,raca,WHITE,calibracao_no_agregado,0.0013563061707635438,-0.014221440360735763,0.015849846522737514
-random_forest,raca,WHITE,ece,0.05572427314692656,,
+random_forest,raca,WHITE,media_prevista,0.5695989466703174,,
+random_forest,raca,WHITE,calibracao_no_agregado,0.0013563061707634327,-0.01422144036073587,0.015849846522737514
+random_forest,raca,WHITE,ece,0.05572427314692659,,
 random_forest,raca,WHITE,brier,0.20336559271211502,0.19862638481459993,0.2081653807426058
 random_forest,raca,WHITE,brier_referencia,0.24534294201764864,,
 random_forest,raca,WHITE,brier_skill,0.17109662483184052,,
@@ -132,7 +132,7 @@ random_forest,sexo,M_vs_F,dif_ppv,0.03232556512002238,-0.010240804301938283,0.07
 random_forest,sexo,F,taxa_observada,0.4676923076923077,,
 random_forest,sexo,F,media_prevista,0.484559778367813,,
 random_forest,sexo,F,calibracao_no_agregado,0.016867470675505314,-0.010551628726110074,0.04525560698241872
-random_forest,sexo,F,ece,0.06198910711118156,,
+random_forest,sexo,F,ece,0.061989107111181545,,
 random_forest,sexo,F,brier,0.21256028082957662,0.2048511895957534,0.22059051639814728
 random_forest,sexo,F,brier_referencia,0.2489562130177515,,
 random_forest,sexo,F,brier_skill,0.14619411079160216,,

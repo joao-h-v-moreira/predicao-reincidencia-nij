@@ -1,0 +1,209 @@
+modelo,recorte,grupo,metrica,valor,ic_inferior,ic_superior
+gradient_boosting,subgrupo,BLACK_F,n,332.0,,
+gradient_boosting,subgrupo,BLACK_F,taxa_base,0.4819277108433735,,
+gradient_boosting,subgrupo,BLACK_F,taxa_alto_risco,0.42771084337349397,0.37429636579103304,0.4814871273712737
+gradient_boosting,subgrupo,BLACK_F,fpr,0.25,0.1904697204968944,0.31978956016177956
+gradient_boosting,subgrupo,BLACK_F,fnr,0.38125,0.3129145408163265,0.4556636960600375
+gradient_boosting,subgrupo,BLACK_F,ppv,0.6971830985915493,0.6180453431372549,0.7674493623405851
+gradient_boosting,subgrupo,BLACK_F,calibracao_no_agregado,-0.031545896918124094,-0.07899660504628181,0.018049404018432816
+gradient_boosting,subgrupo,BLACK_F,brier_skill,0.17074407080337184,,
+gradient_boosting,subgrupo,BLACK_M,n,4056.0,,
+gradient_boosting,subgrupo,BLACK_M,taxa_base,0.591715976331361,,
+gradient_boosting,subgrupo,BLACK_M,taxa_alto_risco,0.7263313609467456,0.7140329683775521,0.7400302945987296
+gradient_boosting,subgrupo,BLACK_M,fpr,0.5628019323671497,0.5391650569920441,0.5853592952128053
+gradient_boosting,subgrupo,BLACK_M,fnr,0.16083333333333333,0.14607464123588068,0.1754345096513256
+gradient_boosting,subgrupo,BLACK_M,ppv,0.6836388323150034,0.6657695767008631,0.7012198252115991
+gradient_boosting,subgrupo,BLACK_M,calibracao_no_agregado,0.007383060050668466,-0.006869387902932658,0.021786298492600192
+gradient_boosting,subgrupo,BLACK_M,brier_skill,0.14210359130383288,,
+gradient_boosting,subgrupo,WHITE_F,n,643.0,,
+gradient_boosting,subgrupo,WHITE_F,taxa_base,0.4603421461897356,,
+gradient_boosting,subgrupo,WHITE_F,taxa_alto_risco,0.4712286158631415,0.4325505447869728,0.5094945432641201
+gradient_boosting,subgrupo,WHITE_F,fpr,0.3170028818443804,0.2664530429782419,0.36572128447920954
+gradient_boosting,subgrupo,WHITE_F,fnr,0.34797297297297297,0.2966637931034483,0.40541177970423253
+gradient_boosting,subgrupo,WHITE_F,ppv,0.636963696369637,0.5849640758830609,0.6895448149386973
+gradient_boosting,subgrupo,WHITE_F,calibracao_no_agregado,0.011929696180256133,-0.021287508020474424,0.04541239836243221
+gradient_boosting,subgrupo,WHITE_F,brier_skill,0.17503110426778568,,
+gradient_boosting,subgrupo,WHITE_M,n,2720.0,,
+gradient_boosting,subgrupo,WHITE_M,taxa_base,0.59375,,
+gradient_boosting,subgrupo,WHITE_M,taxa_alto_risco,0.7018382352941176,0.6848139118787733,0.7188886972365037
+gradient_boosting,subgrupo,WHITE_M,fpr,0.5013574660633484,0.47395824124956404,0.5302146860921148
+gradient_boosting,subgrupo,WHITE_M,fnr,0.1609907120743034,0.14381444461310683,0.1805811827478429
+gradient_boosting,subgrupo,WHITE_M,ppv,0.7097957045573599,0.6905571117245064,0.7302334091102494
+gradient_boosting,subgrupo,WHITE_M,calibracao_no_agregado,-0.006063820111150031,-0.02277892253764112,0.010356610010995694
+gradient_boosting,subgrupo,WHITE_M,brier_skill,0.1855661192365371,,
+gradient_boosting,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,disparate_impact_ratio,0.9178528954683748,0.8528254927287366,0.989948044853761
+gradient_boosting,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,diferenca_paridade_demografica,0.024493125652627956,0.0028395490954302217,0.046321583238801915
+gradient_boosting,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fpr,0.06144446630380129,0.020826069513885097,0.09852217529016725
+gradient_boosting,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fnr,-0.00015737874097007665,-0.023038465649224533,0.020996305935952118
+gradient_boosting,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_ppv,-0.02615687224235641,-0.05094434962399257,0.0015517543245260079
+gradient_boosting,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,disparate_impact_ratio,1.0822997873848337,0.9631510604747462,1.220466310940611
+gradient_boosting,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,diferenca_paridade_demografica,-0.043517772489647555,-0.11138236572921091,0.020045922980403724
+gradient_boosting,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fpr,-0.06700288184438041,-0.14891020703896052,0.002079492401939328
+gradient_boosting,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fnr,0.033277027027027006,-0.0593491522411592,0.12244385025056992
+gradient_boosting,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_ppv,0.060219402221912244,-0.024171635599811864,0.15070888977495234
+gradient_boosting,M_vs_F | raca=BLACK,M_vs_F,disparate_impact_ratio,0.47819993771410774,0.4323416766522033,0.5344986746488206
+gradient_boosting,M_vs_F | raca=BLACK,M_vs_F,diferenca_paridade_demografica,0.2986205175732516,0.24463171361739763,0.35219191055195476
+gradient_boosting,M_vs_F | raca=BLACK,M_vs_F,dif_fpr,0.3128019323671497,0.24543702484384816,0.3800525989663775
+gradient_boosting,M_vs_F | raca=BLACK,M_vs_F,dif_fnr,-0.22041666666666665,-0.2929885245910765,-0.14127007893530769
+gradient_boosting,M_vs_F | raca=BLACK,M_vs_F,dif_ppv,-0.013544266276545813,-0.08893613350637888,0.06554803620985467
+gradient_boosting,M_vs_F | raca=WHITE,M_vs_F,disparate_impact_ratio,0.5638765138408306,0.5133900080234824,0.6192720842991973
+gradient_boosting,M_vs_F | raca=WHITE,M_vs_F,diferenca_paridade_demografica,0.23060961943097608,0.18883505735914397,0.27291435392294533
+gradient_boosting,M_vs_F | raca=WHITE,M_vs_F,dif_fpr,0.184354584218968,0.12121804771113762,0.24288953426236778
+gradient_boosting,M_vs_F | raca=WHITE,M_vs_F,dif_fnr,-0.18698226089866957,-0.24004806061405953,-0.13103663193121418
+gradient_boosting,M_vs_F | raca=WHITE,M_vs_F,dif_ppv,0.07283200818772284,0.01474671515450593,0.12899054342694027
+regressao_logistica,subgrupo,BLACK_F,n,332.0,,
+regressao_logistica,subgrupo,BLACK_F,taxa_base,0.4819277108433735,,
+regressao_logistica,subgrupo,BLACK_F,taxa_alto_risco,0.4307228915662651,0.3764310067634993,0.4863598150483396
+regressao_logistica,subgrupo,BLACK_F,fpr,0.23837209302325582,0.1774968125796855,0.3085731922398589
+regressao_logistica,subgrupo,BLACK_F,fnr,0.3625,0.2950578592092575,0.4379233511586453
+regressao_logistica,subgrupo,BLACK_F,ppv,0.7132867132867133,0.6322502240143368,0.7843212669683258
+regressao_logistica,subgrupo,BLACK_F,calibracao_no_agregado,-0.031046910591924104,-0.07993447698176646,0.018256410352132057
+regressao_logistica,subgrupo,BLACK_F,brier_skill,0.17194108071430503,,
+regressao_logistica,subgrupo,BLACK_M,n,4056.0,,
+regressao_logistica,subgrupo,BLACK_M,taxa_base,0.591715976331361,,
+regressao_logistica,subgrupo,BLACK_M,taxa_alto_risco,0.7132642998027613,0.6998183442735555,0.7263731436741259
+regressao_logistica,subgrupo,BLACK_M,fpr,0.5452898550724637,0.5211146424475326,0.5684475351090457
+regressao_logistica,subgrupo,BLACK_M,fnr,0.17083333333333334,0.15693399098769942,0.18654237331231407
+regressao_logistica,subgrupo,BLACK_M,ppv,0.6878672658140339,0.6708121014541247,0.7045290515159572
+regressao_logistica,subgrupo,BLACK_M,calibracao_no_agregado,0.007852595296557019,-0.006393750457396333,0.022599804694327104
+regressao_logistica,subgrupo,BLACK_M,brier_skill,0.13690492392107023,,
+regressao_logistica,subgrupo,WHITE_F,n,643.0,,
+regressao_logistica,subgrupo,WHITE_F,taxa_base,0.4603421461897356,,
+regressao_logistica,subgrupo,WHITE_F,taxa_alto_risco,0.4354587869362364,0.396649350022302,0.4739789844109714
+regressao_logistica,subgrupo,WHITE_F,fpr,0.2680115273775216,0.2222064393939394,0.31329113924050633
+regressao_logistica,subgrupo,WHITE_F,fnr,0.36824324324324326,0.3195388737801952,0.42483868946939796
+regressao_logistica,subgrupo,WHITE_F,ppv,0.6678571428571428,0.6167784492042598,0.7189073458011148
+regressao_logistica,subgrupo,WHITE_F,calibracao_no_agregado,-0.0015153002621684508,-0.034274683639024445,0.03162581136298538
+regressao_logistica,subgrupo,WHITE_F,brier_skill,0.17656729071177346,,
+regressao_logistica,subgrupo,WHITE_M,n,2720.0,,
+regressao_logistica,subgrupo,WHITE_M,taxa_base,0.59375,,
+regressao_logistica,subgrupo,WHITE_M,taxa_alto_risco,0.6827205882352941,0.6647330475407014,0.7008305793093529
+regressao_logistica,subgrupo,WHITE_M,fpr,0.4760180995475113,0.4480567066871007,0.5071816514472444
+regressao_logistica,subgrupo,WHITE_M,fnr,0.17585139318885448,0.15861322759280894,0.1949110292898918
+regressao_logistica,subgrupo,WHITE_M,ppv,0.7167474421109317,0.6964370855368086,0.7382651042068203
+regressao_logistica,subgrupo,WHITE_M,calibracao_no_agregado,-0.0051313466303650745,-0.02240923436319521,0.01126449759010198
+regressao_logistica,subgrupo,WHITE_M,brier_skill,0.18522877643498936,,
+regressao_logistica,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,disparate_impact_ratio,0.9037324502160943,0.8414115831670425,0.968220132746551
+regressao_logistica,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,diferenca_paridade_demografica,0.030543711567467158,0.009664095576940365,0.05258870749564769
+regressao_logistica,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fpr,0.06927175552495246,0.03011863127301295,0.10911999537134648
+regressao_logistica,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fnr,-0.005018059855521145,-0.028695717561695866,0.017104718870024918
+regressao_logistica,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_ppv,-0.028880176296897764,-0.05519132060402787,-0.0013151265518907284
+regressao_logistica,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,disparate_impact_ratio,1.0083889276112714,0.8981691075635151,1.1278406999956567
+regressao_logistica,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,diferenca_paridade_demografica,-0.004735895369971321,-0.07012296617896914,0.059312575890115085
+regressao_logistica,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fpr,-0.029639434354265776,-0.10625929023705633,0.045186942362370794
+regressao_logistica,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fnr,-0.005743243243243268,-0.10041826923076921,0.0902359703606843
+regressao_logistica,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_ppv,0.04542957042957052,-0.041600150180899804,0.13366693501009738
+regressao_logistica,M_vs_F | raca=BLACK,M_vs_F,disparate_impact_ratio,0.5036838754787474,0.4583603583764883,0.5633456704650913
+regressao_logistica,M_vs_F | raca=BLACK,M_vs_F,diferenca_paridade_demografica,0.2825414082364962,0.2241817319186417,0.3347782688625814
+regressao_logistica,M_vs_F | raca=BLACK,M_vs_F,dif_fpr,0.30691776204920795,0.23533683316876375,0.3710000980500593
+regressao_logistica,M_vs_F | raca=BLACK,M_vs_F,dif_fnr,-0.19166666666666665,-0.2641076928528513,-0.11093875108612013
+regressao_logistica,M_vs_F | raca=BLACK,M_vs_F,dif_ppv,-0.025419447472679435,-0.09917188189689881,0.05655891381552764
+regressao_logistica,M_vs_F | raca=WHITE,M_vs_F,disparate_impact_ratio,0.5620128423270134,0.5177255980838262,0.6168072431440973
+regressao_logistica,M_vs_F | raca=WHITE,M_vs_F,diferenca_paridade_demografica,0.24726180129905773,0.2026011437149523,0.2875695070889635
+regressao_logistica,M_vs_F | raca=WHITE,M_vs_F,dif_fpr,0.2080065721699897,0.1487052063584538,0.2676219532379494
+regressao_logistica,M_vs_F | raca=WHITE,M_vs_F,dif_fnr,-0.19239185005438877,-0.24723494149705366,-0.13415843107826045
+regressao_logistica,M_vs_F | raca=WHITE,M_vs_F,dif_ppv,0.04889029925378885,-0.0159370421657558,0.10622243328187635
+baseline_dressel_farid,subgrupo,BLACK_F,n,332.0,,
+baseline_dressel_farid,subgrupo,BLACK_F,taxa_base,0.4819277108433735,,
+baseline_dressel_farid,subgrupo,BLACK_F,taxa_alto_risco,0.608433734939759,0.5569610516066212,0.6581603566030877
+baseline_dressel_farid,subgrupo,BLACK_F,fpr,0.47674418604651164,0.4060214504596527,0.5569008534654828
+baseline_dressel_farid,subgrupo,BLACK_F,fnr,0.25,0.1849038074133763,0.3146986166007905
+baseline_dressel_farid,subgrupo,BLACK_F,ppv,0.594059405940594,0.5251051132510511,0.6579077644606566
+baseline_dressel_farid,subgrupo,BLACK_F,calibracao_no_agregado,0.05840284353349723,0.007755736925518931,0.10996801237498106
+baseline_dressel_farid,subgrupo,BLACK_F,brier_skill,0.08386375106623067,,
+baseline_dressel_farid,subgrupo,BLACK_M,n,4056.0,,
+baseline_dressel_farid,subgrupo,BLACK_M,taxa_base,0.591715976331361,,
+baseline_dressel_farid,subgrupo,BLACK_M,taxa_alto_risco,0.7292899408284024,0.7156774363364211,0.7431667749874522
+baseline_dressel_farid,subgrupo,BLACK_M,fpr,0.6117149758454107,0.5880188650424755,0.6351943569700073
+baseline_dressel_farid,subgrupo,BLACK_M,fnr,0.18958333333333333,0.1736234558815204,0.20534624974350094
+baseline_dressel_farid,subgrupo,BLACK_M,ppv,0.6575388776200135,0.6391011823400766,0.6750463560291026
+baseline_dressel_farid,subgrupo,BLACK_M,calibracao_no_agregado,-0.002994133166393631,-0.018345623598593236,0.01197340554596959
+baseline_dressel_farid,subgrupo,BLACK_M,brier_skill,0.0782927546364185,,
+baseline_dressel_farid,subgrupo,WHITE_F,n,643.0,,
+baseline_dressel_farid,subgrupo,WHITE_F,taxa_base,0.4603421461897356,,
+baseline_dressel_farid,subgrupo,WHITE_F,taxa_alto_risco,0.5723172628304821,0.5349746751297868,0.6076481193396283
+baseline_dressel_farid,subgrupo,WHITE_F,fpr,0.414985590778098,0.36598723754631535,0.4639372346876895
+baseline_dressel_farid,subgrupo,WHITE_F,fnr,0.24324324324324326,0.19873154814939678,0.2953848222356993
+baseline_dressel_farid,subgrupo,WHITE_F,ppv,0.6086956521739131,0.5619661423620368,0.6552713070440452
+baseline_dressel_farid,subgrupo,WHITE_F,calibracao_no_agregado,0.06953492115836418,0.03607194230188946,0.10199545814934073
+baseline_dressel_farid,subgrupo,WHITE_F,brier_skill,0.11925710936025102,,
+baseline_dressel_farid,subgrupo,WHITE_M,n,2720.0,,
+baseline_dressel_farid,subgrupo,WHITE_M,taxa_base,0.59375,,
+baseline_dressel_farid,subgrupo,WHITE_M,taxa_alto_risco,0.6875,0.6704985468612177,0.70483549073264
+baseline_dressel_farid,subgrupo,WHITE_M,fpr,0.530316742081448,0.5030463704717387,0.559293964568933
+baseline_dressel_farid,subgrupo,WHITE_M,fnr,0.20495356037151702,0.18417144633402857,0.2233490223046659
+baseline_dressel_farid,subgrupo,WHITE_M,ppv,0.6866310160427808,0.6666622830089426,0.7076293799226295
+baseline_dressel_farid,subgrupo,WHITE_M,calibracao_no_agregado,-0.022162120131371754,-0.04081340230746188,-0.005183427928609841
+baseline_dressel_farid,subgrupo,WHITE_M,brier_skill,0.10145707405547888,,
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,disparate_impact_ratio,0.8662721893491124,0.8024989320695866,0.9300865015122272
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,diferenca_paridade_demografica,0.04178994082840237,0.02090363845181466,0.06471095172670252
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fpr,0.08139823376396271,0.04409918593375784,0.11853190374999642
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fnr,-0.015370227038183693,-0.04298752389870868,0.008215517264653766
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_ppv,-0.029092138422767255,-0.055607472502816474,-0.000723249857053628
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,disparate_impact_ratio,0.9155531215772179,0.7819783742627751,1.0822123792871987
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,diferenca_paridade_demografica,0.03611647210927693,-0.033210484127109904,0.09655556685532328
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fpr,0.06175859526841365,-0.028605027135038735,0.15686635939339647
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fnr,0.006756756756756743,-0.07789111705293825,0.08765811658266093
+baseline_dressel_farid,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_ppv,-0.01463624623331905,-0.09577201572128577,0.06513009160744554
+baseline_dressel_farid,M_vs_F | raca=BLACK,M_vs_F,disparate_impact_ratio,0.6913518434228494,0.6052330068427489,0.8108977223591662
+baseline_dressel_farid,M_vs_F | raca=BLACK,M_vs_F,diferenca_paridade_demografica,0.12085620588864332,0.06400585014542781,0.1719060865211566
+baseline_dressel_farid,M_vs_F | raca=BLACK,M_vs_F,dif_fpr,0.13497078979889904,0.054232619426132216,0.2082592180945232
+baseline_dressel_farid,M_vs_F | raca=BLACK,M_vs_F,dif_fnr,-0.060416666666666674,-0.12553418226780583,0.007201642418773929
+baseline_dressel_farid,M_vs_F | raca=BLACK,M_vs_F,dif_ppv,0.06347947167941947,-0.006920178930694717,0.13395089312873382
+baseline_dressel_farid,M_vs_F | raca=WHITE,M_vs_F,disparate_impact_ratio,0.7306818181818182,0.6564091643888122,0.8157967874268088
+baseline_dressel_farid,M_vs_F | raca=WHITE,M_vs_F,diferenca_paridade_demografica,0.11518273716951788,0.07287797376839085,0.16017159092828856
+baseline_dressel_farid,M_vs_F | raca=WHITE,M_vs_F,dif_fpr,0.11533115130334998,0.056208355984981216,0.1745753575913798
+baseline_dressel_farid,M_vs_F | raca=WHITE,M_vs_F,dif_fnr,-0.03828968287172624,-0.09129690170866708,0.014187287211932678
+baseline_dressel_farid,M_vs_F | raca=WHITE,M_vs_F,dif_ppv,0.07793536386886768,0.02093151398539858,0.12961401672091483
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,n,332.0,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,taxa_base,0.4819277108433735,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,taxa_alto_risco,0.6265060240963856,0.5781033618804665,0.6789468130012664
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,fpr,0.47093023255813954,0.39661556450565155,0.5494642857142857
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,fnr,0.20625,0.1455467319480933,0.2666780821917808
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,ppv,0.6105769230769231,0.543378335576847,0.6734747583243823
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,calibracao_no_agregado,0.06293780048465436,0.014849765651287667,0.11260951707528945
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_F,brier_skill,0.14064464345233385,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,n,4056.0,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,taxa_base,0.591715976331361,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,taxa_alto_risco,0.7196745562130178,0.706746666726902,0.7338680691692885
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,fpr,0.5597826086956522,0.5368759263804047,0.5833345697329377
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,fnr,0.17,0.15469058964634186,0.18494187432988704
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,ppv,0.6824254881808839,0.6649280020598198,0.69965946883972
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,calibracao_no_agregado,-0.005672683858611194,-0.019405219365327943,0.008901317907109466
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,BLACK_M,brier_skill,0.13195637496670953,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,n,643.0,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,taxa_base,0.4603421461897356,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,taxa_alto_risco,0.6423017107309487,0.6027155211617754,0.6778974881039531
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,fpr,0.484149855907781,0.4305142620632566,0.5353952254641909
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,fnr,0.17229729729729729,0.1294902853227622,0.21942474233779122
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,ppv,0.5932203389830508,0.5473743339144955,0.6361324729801224
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,calibracao_no_agregado,0.09151432038110824,0.05898461002248982,0.1243952362168613
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_F,brier_skill,0.14179405195486006,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,n,2720.0,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,taxa_base,0.59375,,
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,taxa_alto_risco,0.6988970588235294,0.6818009841825184,0.7156280586716718
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,fpr,0.5076923076923077,0.4800325486955013,0.5372676634185766
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,fnr,0.17027863777089783,0.15177399715011877,0.18982598152112065
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,ppv,0.7048921620199895,0.6846248233291262,0.726415458866758
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,calibracao_no_agregado,-0.017210532797783507,-0.034174767382480487,-0.0009485454244156644
+gradient_boosting__sem_gang_affiliated_e_gender,subgrupo,WHITE_M,brier_skill,0.16534387918164972,,
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,disparate_impact_ratio,0.9309953688651911,0.864962594969927,1.0017218878385732
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,diferenca_paridade_demografica,0.02077749738948842,-0.0004992516441649384,0.04254570699715837
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fpr,0.05209030100334455,0.01280001140436417,0.08942073993309357
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_fnr,-0.00027863777089781605,-0.025592575808165915,0.021410184749986842
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=M,BLACK_vs_WHITE,dif_ppv,-0.02246667383910561,-0.0471132391453657,0.005579824150990263
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,disparate_impact_ratio,1.0441592456783655,0.8741848946446458,1.2351658288012388
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,diferenca_paridade_demografica,-0.0157956866345631,-0.07871273602759507,0.047754207366804385
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fpr,-0.01321962334964144,-0.10140825574459492,0.07139044620652941
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_fnr,0.0339527027027027,-0.04519338590310315,0.1081972652668256
+gradient_boosting__sem_gang_affiliated_e_gender,BLACK_vs_WHITE | sexo=F,BLACK_vs_WHITE,dif_ppv,0.017356584093872307,-0.06081194722088497,0.09446156761673741
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=BLACK,M_vs_F,disparate_impact_ratio,0.7505487688490169,0.6514924031654027,0.8749417941009361
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=BLACK,M_vs_F,diferenca_paridade_demografica,0.09316853211663223,0.0406055765625323,0.1469431104284504
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=BLACK,M_vs_F,dif_fpr,0.08885237613751268,0.009842890743156344,0.16254808061655304
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=BLACK,M_vs_F,dif_fnr,-0.03624999999999998,-0.10188698123348938,0.02817780248367476
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=BLACK,M_vs_F,dif_ppv,0.07184856510396076,0.007603672583709401,0.14614498807010604
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=WHITE,M_vs_F,disparate_impact_ratio,0.8417790920716113,0.7496549933745507,0.9475604162938728
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=WHITE,M_vs_F,diferenca_paridade_demografica,0.05659534809258071,0.017081360638587346,0.09693603238478886
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=WHITE,M_vs_F,dif_fpr,0.023542451784526686,-0.03784197829412889,0.089419098771829
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=WHITE,M_vs_F,dif_fnr,-0.0020186595263994578,-0.04979474837388571,0.04621182064137943
+gradient_boosting__sem_gang_affiliated_e_gender,M_vs_F | raca=WHITE,M_vs_F,dif_ppv,0.11167182303693868,0.060218790067861225,0.1623900238344487
