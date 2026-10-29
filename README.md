@@ -1,6 +1,6 @@
 # Predição de Reincidência Criminal com Mitigação de Viés Racial
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23713062.svg)](https://doi.org/10.5281/zenodo.23713062)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23713061.svg)](https://doi.org/10.5281/zenodo.23713061)
 
 Trabalho de Conclusão de Curso (TCC) — Universidade São Judas Tadeu (USJT)
 Curso de Bacharelado em Engenharia de Computação
@@ -219,8 +219,10 @@ Sensibilidade e auditoria:
 
 ## Versão e como citar
 
-A versão usada no artigo e no TCC é marcada com uma tag (`v2.0.0`) e
-arquivada no Zenodo, que atribui um DOI à versão (ver `CITATION.cff`):
+A versão usada no artigo e no TCC é marcada com uma tag (`v2.1.0`) e
+arquivada no Zenodo, que atribui um DOI a cada versão (ver `CITATION.cff`). O DOI
+[10.5281/zenodo.23713061](https://doi.org/10.5281/zenodo.23713061) reúne todas as
+versões e aponta sempre para a mais recente; a versão anterior, `v2.0.0`, tem o DOI
 [10.5281/zenodo.23713062](https://doi.org/10.5281/zenodo.23713062).
 Cite o código pelo DOI da versão, e não apenas pelo endereço do GitHub, para
 que o leitor encontre exatamente o código que gerou os números publicados.

@@ -67,4 +67,4 @@ Comparação com o desafio do NIJ (ano 1, divisão oficial; Brier: menor é melh
   - NIJ - resultados oficiais do ano 1 / Equipe pequena (1º lugar): Brier homens 0,1916, mulheres 0,1542, média 0,1733
   - NIJ - resultados oficiais do ano 1 / Viés racial (1º lugar): índice de equidade homens 0,8090, mulheres 0,8446
 
-Duração da execução: 21,4 minutos.
+Duração da execução: 20,1 minutos.
