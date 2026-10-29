@@ -166,6 +166,13 @@ def _avaliar_rapido(nome, y_te, y_prev, y_proba, grupos_teste: dict, aval_d, ava
         eq = aval_e.calcular_equidade(y_te, y_prev, grupo, ORDEM_GRUPOS[atributo])
         for met in ("disparate_impact_ratio", "dif_fpr", "dif_fnr"):
             linha[f"{atributo}_{met}"] = eq[met]
+        # calibração no agregado por grupo (probabilidade média prevista − taxa observada):
+        # mostra se retirar um atributo (ex.: o sexo) passa a superestimar o risco de um grupo
+        g_arr, y_arr, p_arr = np.asarray(grupo), np.asarray(y_te), np.asarray(y_proba)
+        for g in ORDEM_GRUPOS[atributo]:
+            sel = g_arr == g
+            if sel.any():
+                linha[f"{atributo}_calib_{g}"] = float(p_arr[sel].mean() - y_arr[sel].mean())
     linha["indice_nij"] = aval_e.calcular_indice_nij(y_te, y_proba, grupos_teste["raca"])["indice_nij"]
     linha.update(dif_fpr_racial_por_sexo(y_te, y_prev, grupos_teste["raca"], grupos_teste["sexo"]))
     return linha
@@ -642,6 +649,7 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
         # na análise principal, para isolar o efeito da remoção (como na ablação).
         _log(f"Robustez: análise principal sem Gang_Affiliated (e sem Gang_Affiliated e Gender), em {len(sementes)} divisões")
         previsoes_variantes = {}
+        linhas_eq_variantes = []  # equidade detalhada (com IC e calibração por grupo) das variantes, divisão de referência
         for semente in sementes:
             xs_tr0, xs_te0, ys_tr, ys_te = divisor.dividir_treino_teste(x_soltura, y, semente=semente)
             grupos_s = {"raca": raca.loc[xs_te0.index], "sexo": sexo.loc[xs_te0.index]}
@@ -656,8 +664,9 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
                                                 "proxies_removidas": ";".join(remover)})
                     if semente == semente_ref and nome == MODELO_DETALHADO:
                         previsoes_variantes[variante] = (yp_v, ypb_v, xv_tr.columns)
-                        reg_v, _, dec_v = _avaliar_detalhado(nome, ys_te, yp_v, ypb_v, grupos_s, aval_d, aval_e,
-                                                             hp_por_semente[semente][nome], semente)
+                        reg_v, eq_v, dec_v = _avaliar_detalhado(nome, ys_te, yp_v, ypb_v, grupos_s, aval_d, aval_e,
+                                                                hp_por_semente[semente][nome], semente)
+                        linhas_eq_variantes += [{"analise": "gang_affiliated", "variante": variante, **l} for l in eq_v]
                         pm_v, _ = detectar_proxy_multivariado(
                             RemovedorDeVies.aplicar_remocao(x_soltura, remover), raca, calcular_importancias=False)
                         linhas_robustez_ref.append(_linha_detalhada_variante(
@@ -683,8 +692,9 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
                 linhas_limiar_rep.append({"limiares": config, "semente": semente, **linha,
                                           "proxies_removidas": ";".join(prox_c) or "-", "n_variaveis": xc_tr.shape[1]})
                 if semente == semente_ref:
-                    reg_l, _, dec_l = _avaliar_detalhado(MODELO_DETALHADO, ys_te, yp_l, ypb_l, grupos_s, aval_d, aval_e,
-                                                         hp_por_semente[semente][MODELO_DETALHADO], semente)
+                    reg_l, eq_l, dec_l = _avaliar_detalhado(MODELO_DETALHADO, ys_te, yp_l, ypb_l, grupos_s, aval_d, aval_e,
+                                                            hp_por_semente[semente][MODELO_DETALHADO], semente)
+                    linhas_eq_variantes += [{"analise": "limiares_proxy", "variante": config, **l} for l in eq_l]
                     pm_l, _ = detectar_proxy_multivariado(rem_c.aplicar_remocao(x_soltura, prox_c), raca,
                                                           calcular_importancias=False)
                     linha_l = _linha_detalhada_variante(
@@ -718,7 +728,8 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
         tabela_robustez_rep = pd.DataFrame(linhas_robustez_rep)
         tabela_limiar_rep = pd.DataFrame(linhas_limiar_rep)
         mets_rep = ["auc_roc", "brier", "acuracia", "recall", "raca_disparate_impact_ratio", "raca_dif_fpr", "raca_dif_fnr",
-                    "sexo_disparate_impact_ratio", "sexo_dif_fpr", "raca_dif_fpr_homens", "raca_dif_fpr_mulheres"]
+                    "sexo_disparate_impact_ratio", "sexo_dif_fpr", "raca_dif_fpr_homens", "raca_dif_fpr_mulheres",
+                    "sexo_calib_M", "sexo_calib_F", "raca_calib_BLACK", "raca_calib_WHITE"]
         tabelas_extra.update({
             "robustez_gang_affiliated": pd.DataFrame(linhas_robustez_ref),
             "robustez_gang_affiliated_repeticoes": tabela_robustez_rep,
@@ -729,6 +740,7 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
             "sensibilidade_limiares_proxy_repeticoes": tabela_limiar_rep,
             "sensibilidade_limiares_proxy_resumo": resumir_repeticoes(tabela_limiar_rep, "limiares", mets_rep),
             "equidade_interseccional": tabela_inter,
+            "equidade_detalhada_variantes": pd.DataFrame(linhas_eq_variantes),
         })
         if tabela_desafio is not None:
             tabelas_extra["comparacao_desafio_nij"] = tabela_desafio

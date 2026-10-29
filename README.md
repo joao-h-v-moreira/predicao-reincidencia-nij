@@ -186,6 +186,12 @@ Robustez e análises complementares:
   `Gender`, com IC e diferenças pareadas em relação ao principal (por raça e
   por sexo); `robustez_gang_affiliated_repeticoes.csv` e `_resumo.csv` — as
   três variantes, para os três algoritmos, nas 10 divisões.
+- `equidade_detalhada_variantes.csv` — métricas por grupo (com IC) de cada
+  variante de robustez na divisão de referência, incluindo a calibração por
+  grupo (calibração no agregado, ECE e Brier skill): mostra, por exemplo, se o
+  modelo sem `Gang_Affiliated` e `Gender` passa a superestimar o risco das
+  mulheres. As repetições trazem a calibração no agregado por grupo
+  (`sexo_calib_M`, `sexo_calib_F`, `raca_calib_BLACK`, `raca_calib_WHITE`).
 - `sensibilidade_limiares_proxy.csv` (+ `_repeticoes.csv`, `_resumo.csv`) —
   variáveis removidas, desempenho, disparidade e reconstrução da raça com os
   limiares rigoroso, principal e permissivo.
