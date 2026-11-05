@@ -47,7 +47,8 @@ predicao-reincidencia-nij/
 ├── run_pipeline.py          # script principal (orquestra UC01-UC10)
 ├── requirements.txt
 ├── docs/
-│   └── variaveis_dataset.md  # inventário das 53 variáveis e decisões
+│   ├── variaveis_dataset.md  # inventário das 53 variáveis e decisões
+│   └── tabelas_e_figuras_do_artigo.md # origem de cada tabela e figura do artigo
 ├── src/
 │   ├── dataset.py            # UC01 - importar dataset; conjuntos de atributos
 │   ├── eda.py                # UC02 - análise exploratória (EDA)
@@ -228,11 +229,14 @@ Sensibilidade e auditoria:
 
 ## Versão e como citar
 
-A versão usada no artigo e no TCC é marcada com uma tag (`v2.1.0`) e
+A versão usada no artigo e no TCC é marcada com uma tag (`v2.2.0`) e
 arquivada no Zenodo, que atribui um DOI a cada versão (ver `CITATION.cff`). O DOI
 [10.5281/zenodo.23713061](https://doi.org/10.5281/zenodo.23713061) reúne todas as
-versões e aponta sempre para a mais recente; a versão anterior, `v2.0.0`, tem o DOI
-[10.5281/zenodo.23713062](https://doi.org/10.5281/zenodo.23713062).
+versões e aponta sempre para a mais recente; as versões anteriores têm os DOIs
+[10.5281/zenodo.23784665](https://doi.org/10.5281/zenodo.23784665) (`v2.1.0`) e
+[10.5281/zenodo.23713062](https://doi.org/10.5281/zenodo.23713062) (`v2.0.0`).
+O arquivo `docs/tabelas_e_figuras_do_artigo.md` indica de qual arquivo de `results/`
+vem cada tabela e figura do artigo.
 Cite o código pelo DOI da versão, e não apenas pelo endereço do GitHub, para
 que o leitor encontre exatamente o código que gerou os números publicados.
 
