@@ -89,6 +89,35 @@ def _resumo_entre_grupos(por_grupo: dict, ordem: tuple[str, str]) -> dict:
     return resultado
 
 
+def _decompor(yr: np.ndarray, yp: np.ndarray, g: np.ndarray, a: str, b: str) -> dict:
+    """Decomposição da razão de FPR (A/B) pela identidade de Chouldechova (2017); ver decompor_disparidade_fpr."""
+    ma = _metricas_grupo(yr[g == a], yp[g == a])
+    mb = _metricas_grupo(yr[g == b], yp[g == b])
+
+    def termos(m):
+        return {
+            "chances_taxa_base": m["taxa_base"] / (1 - m["taxa_base"]),
+            "termo_ppv": (1 - m["ppv"]) / m["ppv"],
+            "termo_sensibilidade": 1 - m["fnr"],
+        }
+
+    ta, tb = termos(ma), termos(mb)
+    razoes = {k: ta[k] / tb[k] for k in ta}
+    log_total = math.log(ma["fpr"] / mb["fpr"])
+    resultado = {
+        "grupo_a": a, "grupo_b": b,
+        "fpr_a": ma["fpr"], "fpr_b": mb["fpr"], "razao_fpr": ma["fpr"] / mb["fpr"],
+        "taxa_base_a": ma["taxa_base"], "taxa_base_b": mb["taxa_base"],
+        "ppv_a": ma["ppv"], "ppv_b": mb["ppv"],
+        "fnr_a": ma["fnr"], "fnr_b": mb["fnr"],
+        "residuo_identidade": ma["fpr"] / mb["fpr"] - math.prod(razoes.values()),
+    }
+    for k, r in razoes.items():
+        resultado[f"razao_{k}"] = r
+        resultado[f"parcela_{k}"] = math.log(r) / log_total if log_total else float("nan")
+    return resultado
+
+
 def _ece(yr: np.ndarray, yp: np.ndarray, n_bins: int) -> float:
     """Erro de calibração esperado, com faixas por quantis das probabilidades."""
     if len(yr) < n_bins:
@@ -208,7 +237,7 @@ class AvaliadorEquidade:
         for _ in range(self.n_repeticoes_bootstrap):
             idx = rng.integers(0, n, n)
             r, p, gg = yr[idx], yp[idx], g[idx]
-            por_grupo = {}
+            por_grupo, skill = {}, {}
             for v in grupos:
                 m = gg == v
                 if m.sum() == 0:
@@ -217,11 +246,19 @@ class AvaliadorEquidade:
                 for met in ("fpr", "fnr", "tpr", "ppv", "taxa_alto_risco"):
                     guardar(f"{v}__{met}", por_grupo[v][met])
                 if proba is not None and len(np.unique(r[m])) > 1:
-                    guardar(f"{v}__brier", float(brier_score_loss(r[m], proba[idx][m])))
-                    guardar(f"{v}__calibracao_no_agregado", float(proba[idx][m].mean() - r[m].mean()))
+                    pm, rm = proba[idx][m], r[m]
+                    brier = float(brier_score_loss(rm, pm))
+                    guardar(f"{v}__brier", brier)
+                    guardar(f"{v}__calibracao_no_agregado", float(pm.mean() - rm.mean()))
+                    guardar(f"{v}__ece", _ece(rm, pm, 10))
+                    taxa = rm.mean()
+                    skill[v] = float(1 - brier / (taxa * (1 - taxa)))
+                    guardar(f"{v}__brier_skill", skill[v])
             if len(por_grupo) >= 2:
                 for chave, valor in _resumo_entre_grupos(por_grupo, ordem).items():
                     guardar(chave, valor)
+            if ordem[0] in skill and ordem[1] in skill:
+                guardar("dif_brier_skill", skill[ordem[0]] - skill[ordem[1]])
 
         return {
             chave: {"ic_inferior": float(np.percentile(v, 2.5)), "ic_superior": float(np.percentile(v, 97.5))}
@@ -257,30 +294,46 @@ class AvaliadorEquidade:
         a, b = self._ordem(g, ordem)
         if not (g == a).any() or not (g == b).any():
             return {}
-        ma = _metricas_grupo(yr[g == a], yp[g == a])
-        mb = _metricas_grupo(yr[g == b], yp[g == b])
+        return _decompor(yr, yp, g, a, b)
 
-        def termos(m):
-            return {
-                "chances_taxa_base": m["taxa_base"] / (1 - m["taxa_base"]),
-                "termo_ppv": (1 - m["ppv"]) / m["ppv"],
-                "termo_sensibilidade": 1 - m["fnr"],
-            }
-
-        ta, tb = termos(ma), termos(mb)
-        razoes = {k: ta[k] / tb[k] for k in ta}
-        log_total = math.log(ma["fpr"] / mb["fpr"])
-        resultado = {
-            "grupo_a": a, "grupo_b": b,
-            "fpr_a": ma["fpr"], "fpr_b": mb["fpr"], "razao_fpr": ma["fpr"] / mb["fpr"],
-            "taxa_base_a": ma["taxa_base"], "taxa_base_b": mb["taxa_base"],
-            "ppv_a": ma["ppv"], "ppv_b": mb["ppv"],
-            "fnr_a": ma["fnr"], "fnr_b": mb["fnr"],
-            "residuo_identidade": ma["fpr"] / mb["fpr"] - math.prod(razoes.values()),
-        }
-        for k, r in razoes.items():
-            resultado[f"razao_{k}"] = r
-            resultado[f"parcela_{k}"] = math.log(r) / log_total if log_total else float("nan")
+    def decompor_disparidade_fpr_bootstrap(self, y_real, y_previsto, grupo, ordem: tuple[str, str] | None = None) -> dict:
+        """
+        IC de 95% (bootstrap percentílico, com as mesmas reamostragens do
+        conjunto de teste usadas nas demais métricas) para a razão de FPR,
+        as razões dos três termos e as três parcelas da decomposição de
+        Chouldechova. Também informa a fração das reamostragens em que a
+        parcela da taxa-base fica abaixo de 0,5, o que permite dizer se
+        "menos da metade" da disparidade decorre da taxa-base é uma
+        afirmação estável ou depende da amostra de teste.
+        """
+        yr, yp, g = self._arrays(y_real, y_previsto, grupo)
+        a, b = self._ordem(g, ordem)
+        if not (g == a).any() or not (g == b).any():
+            return {}
+        rng = np.random.default_rng(self.semente_aleatoria)
+        n = len(yr)
+        chaves = ("razao_fpr", "razao_chances_taxa_base", "razao_termo_ppv", "razao_termo_sensibilidade",
+                  "parcela_chances_taxa_base", "parcela_termo_ppv", "parcela_termo_sensibilidade")
+        amostras = {k: [] for k in chaves}
+        for _ in range(self.n_repeticoes_bootstrap):
+            idx = rng.integers(0, n, n)
+            try:
+                d = _decompor(yr[idx], yp[idx], g[idx], a, b)
+            except (ZeroDivisionError, ValueError):
+                continue
+            for k in chaves:
+                v = d.get(k)
+                if v is not None and np.isfinite(v):
+                    amostras[k].append(v)
+        resultado = {}
+        for k, v in amostras.items():
+            if v:
+                resultado[f"{k}_ic_inferior"] = float(np.percentile(v, 2.5))
+                resultado[f"{k}_ic_superior"] = float(np.percentile(v, 97.5))
+        pt = np.asarray(amostras["parcela_chances_taxa_base"])
+        if len(pt):
+            resultado["fracao_bootstrap_parcela_taxa_base_menor_que_metade"] = float((pt < 0.5).mean())
+        resultado["n_reamostragens_validas"] = int(len(pt))
         return resultado
 
     def comparar_pareado(self, y_real, y_previsto_a, y_proba_a, y_previsto_b, y_proba_b, grupo,

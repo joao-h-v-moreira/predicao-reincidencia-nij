@@ -144,12 +144,21 @@ def _avaliar_detalhado(nome, y_te, y_prev, y_proba, grupos_teste: dict, aval_d, 
         cal = aval_e.calcular_calibracao_por_grupo(y_te, y_proba, grupo)
         ic_eq = aval_e.calcular_intervalo_confianca_bootstrap(y_te, y_prev, grupo, y_proba, ordem)
         linhas += equidade_em_linhas(nome, atributo, eq, ic_eq, cal)
+        # diferença de Brier skill entre os grupos (A − B), com IC por bootstrap
+        if ordem[0] in cal and ordem[1] in cal:
+            lim = ic_eq.get("dif_brier_skill", {})
+            linhas.append({"modelo": nome, "atributo": atributo, "grupo": f"{ordem[0]}_vs_{ordem[1]}",
+                           "metrica": "dif_brier_skill",
+                           "valor": cal[ordem[0]]["brier_skill"] - cal[ordem[1]]["brier_skill"],
+                           "ic_inferior": lim.get("ic_inferior"), "ic_superior": lim.get("ic_superior")})
         for met in ("disparate_impact_ratio", "dif_fpr", "dif_fnr"):
             registro[f"{atributo}_{met}"] = eq[met]
             registro[f"{atributo}_{met}_ic_inferior"] = ic_eq.get(met, {}).get("ic_inferior")
             registro[f"{atributo}_{met}_ic_superior"] = ic_eq.get(met, {}).get("ic_superior")
         dec = aval_e.decompor_disparidade_fpr(y_te, y_prev, grupo, ordem)
         if dec:
+            # IC por bootstrap das parcelas da decomposição (revisão do orientador)
+            dec.update(aval_e.decompor_disparidade_fpr_bootstrap(y_te, y_prev, grupo, ordem))
             decomposicoes.append({"modelo": nome, "atributo": atributo, **dec})
     nij = aval_e.calcular_indice_nij(y_te, y_proba, grupos_teste["raca"])
     registro["penalidade_equidade_nij"] = nij["penalidade_equidade"]
@@ -173,6 +182,18 @@ def _avaliar_rapido(nome, y_te, y_prev, y_proba, grupos_teste: dict, aval_d, ava
             sel = g_arr == g
             if sel.any():
                 linha[f"{atributo}_calib_{g}"] = float(p_arr[sel].mean() - y_arr[sel].mean())
+                taxa = y_arr[sel].mean()
+                if 0 < taxa < 1:
+                    brier = float(np.mean((p_arr[sel] - y_arr[sel]) ** 2))
+                    linha[f"{atributo}_brier_skill_{g}"] = 1 - brier / (taxa * (1 - taxa))
+        a_, b_ = ORDEM_GRUPOS[atributo]
+        if f"{atributo}_brier_skill_{a_}" in linha and f"{atributo}_brier_skill_{b_}" in linha:
+            linha[f"{atributo}_dif_brier_skill"] = linha[f"{atributo}_brier_skill_{a_}"] - linha[f"{atributo}_brier_skill_{b_}"]
+        # parcelas da decomposição de Chouldechova em cada divisão (média e dispersão entre as dez)
+        dec = aval_e.decompor_disparidade_fpr(y_te, y_prev, grupo, ORDEM_GRUPOS[atributo])
+        for k in ("chances_taxa_base", "termo_ppv", "termo_sensibilidade"):
+            if dec:
+                linha[f"{atributo}_parcela_{k}"] = dec[f"parcela_{k}"]
     linha["indice_nij"] = aval_e.calcular_indice_nij(y_te, y_proba, grupos_teste["raca"])["indice_nij"]
     linha.update(dif_fpr_racial_por_sexo(y_te, y_prev, grupos_teste["raca"], grupos_teste["sexo"]))
     return linha
@@ -617,7 +638,11 @@ def executar_pipeline(caminho_csv: str, usar_sintetico: bool, resultados_dir: st
         "acuracia", "auc_roc", "auc_pr", "brier", "recall", "precisao",
         "raca_disparate_impact_ratio", "raca_dif_fpr", "raca_dif_fnr",
         "sexo_disparate_impact_ratio", "sexo_dif_fpr", "sexo_dif_fnr", "indice_nij",
-        "raca_dif_fpr_homens", "raca_dif_fpr_mulheres"])
+        "raca_dif_fpr_homens", "raca_dif_fpr_mulheres",
+        "raca_parcela_chances_taxa_base", "raca_parcela_termo_ppv", "raca_parcela_termo_sensibilidade",
+        "sexo_parcela_chances_taxa_base", "sexo_parcela_termo_ppv", "sexo_parcela_termo_sensibilidade",
+        "raca_brier_skill_BLACK", "raca_brier_skill_WHITE", "raca_dif_brier_skill",
+        "sexo_brier_skill_M", "sexo_brier_skill_F", "sexo_dif_brier_skill"])
     tabela_pos_rep = pd.DataFrame(linhas_pp_rep)
     tabela_pos_resumo = _resumir_pos_processamento(tabela_pos_rep)
 

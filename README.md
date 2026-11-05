@@ -186,6 +186,15 @@ Robustez e análises complementares:
   `Gender`, com IC e diferenças pareadas em relação ao principal (por raça e
   por sexo); `robustez_gang_affiliated_repeticoes.csv` e `_resumo.csv` — as
   três variantes, para os três algoritmos, nas 10 divisões.
+- `decomposicao_disparidade_fpr.csv` — além das parcelas da decomposição de
+  Chouldechova, traz o IC de 95% por bootstrap (mesmas 1000 reamostragens do
+  conjunto de teste) da razão de FPR, das razões dos três termos e das três
+  parcelas, e a fração das reamostragens em que a parcela da taxa-base fica
+  abaixo de 0,5. As parcelas e o Brier skill por grupo também são calculados em
+  cada uma das 10 divisões (`resumo_repeticoes.csv`, colunas
+  `*_parcela_*` e `*_brier_skill_*`). Em `equidade_detalhada.csv`, o Brier
+  skill por grupo e a diferença de Brier skill entre os grupos (`dif_brier_skill`)
+  passam a ter IC por bootstrap.
 - `equidade_detalhada_variantes.csv` — métricas por grupo (com IC) de cada
   variante de robustez na divisão de referência, incluindo a calibração por
   grupo (calibração no agregado, ECE e Brier skill): mostra, por exemplo, se o
