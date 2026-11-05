@@ -232,7 +232,8 @@ Sensibilidade e auditoria:
 A versão usada no artigo e no TCC é marcada com uma tag (`v2.2.0`) e
 arquivada no Zenodo, que atribui um DOI a cada versão (ver `CITATION.cff`). O DOI
 [10.5281/zenodo.23713061](https://doi.org/10.5281/zenodo.23713061) reúne todas as
-versões e aponta sempre para a mais recente; as versões anteriores têm os DOIs
+versões e aponta sempre para a mais recente. A `v2.2.0` tem o DOI
+[10.5281/zenodo.23989945](https://doi.org/10.5281/zenodo.23989945); as versões anteriores têm os DOIs
 [10.5281/zenodo.23784665](https://doi.org/10.5281/zenodo.23784665) (`v2.1.0`) e
 [10.5281/zenodo.23713062](https://doi.org/10.5281/zenodo.23713062) (`v2.0.0`).
 O arquivo `docs/tabelas_e_figuras_do_artigo.md` indica de qual arquivo de `results/`
